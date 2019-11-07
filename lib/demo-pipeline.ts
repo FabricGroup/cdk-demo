@@ -20,6 +20,7 @@ export class DemoPipeline extends cdk.Construct {
         });
 
         const sourceArtifact = new Artifact();
+        const cdkArtifact = new Artifact();
         pipeline.addStage({
             stageName: 'github-source',
             actions: [
@@ -28,6 +29,15 @@ export class DemoPipeline extends cdk.Construct {
                     actionName: 'github-source',
                     oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
                     output: sourceArtifact,
+                    trigger: GitHubTrigger.WEBHOOK
+                }),
+                new GitHubSourceAction({
+                    repo: 'cdk-demo',
+                    owner: 'FabricGroup',
+                    branch: 'master',
+                    actionName: 'github-cdk-source',
+                    oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
+                    output: cdkArtifact,
                     trigger: GitHubTrigger.WEBHOOK
                 })
             ]
@@ -39,6 +49,7 @@ export class DemoPipeline extends cdk.Construct {
                 new CodeBuildAction({
                     actionName: 'build',
                     input: sourceArtifact,
+                    extraInputs: [cdkArtifact],
                     project: new Project(this, 'DemoProject', {
                         source: new CodePipelineSource()
                     })
