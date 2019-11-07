@@ -4,6 +4,7 @@ import {CodeBuildAction, GitHubSourceAction, GitHubTrigger} from "@aws-cdk/aws-c
 import {SecretValue} from "@aws-cdk/core";
 import {Project} from "@aws-cdk/aws-codebuild";
 import {CodePipelineSource} from "@aws-cdk/aws-codebuild/lib/codepipeline-source";
+import {Repository} from '@aws-cdk/aws-ecr';
 
 export interface DemoPipelineProps {
     repo: string
@@ -12,21 +13,21 @@ export interface DemoPipelineProps {
 }
 
 export class DemoPipeline extends cdk.Construct {
-    constructor(scope: cdk.Construct, id: string, props: DemoPipelineProps) {
+    constructor(scope: cdk.Stack, id: string, props: DemoPipelineProps) {
         super(scope, id);
 
         const pipeline = new Pipeline(this, 'DemoCodePipeline', {
-            pipelineName: 'container-demo-pipeline',
+            pipelineName: 'container-demo-pipeline'
         });
 
-        const sourceArtifact = new Artifact();
-        const cdkArtifact = new Artifact();
+        const sourceArtifact = new Artifact('serviceSource');
+        const cdkArtifact = new Artifact('cdkSource');
         pipeline.addStage({
-            stageName: 'github-source',
+            stageName: 'service-source',
             actions: [
                 new GitHubSourceAction({
                     ...props,
-                    actionName: 'github-source',
+                    actionName: 'service-source',
                     oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
                     output: sourceArtifact,
                     trigger: GitHubTrigger.WEBHOOK
@@ -34,7 +35,7 @@ export class DemoPipeline extends cdk.Construct {
                 new GitHubSourceAction({
                     repo: 'cdk-demo',
                     owner: 'FabricGroup',
-                    branch: 'master',
+                    branch: 'development',
                     actionName: 'github-cdk-source',
                     oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
                     output: cdkArtifact,
@@ -43,6 +44,24 @@ export class DemoPipeline extends cdk.Construct {
             ]
         });
 
+        const ecrRepository = new Repository(this, 'gooseEcrRepo', {
+            repositoryName: 'goose-repo'
+        });
+
+        const project = new Project(this, 'DemoProject', {
+            projectName: 'demo-project',
+            environment: {
+                privileged: true
+            },
+            environmentVariables: {
+                IMAGE_REPO_NAME: {value: ecrRepository.repositoryName},
+                AWS_ACCOUNT_ID: {value: scope.account},
+                AWS_DEFAULT_REGION: {value: scope.region}
+            },
+            source: new CodePipelineSource()
+        });
+
+        ecrRepository.grantPullPush(project.grantPrincipal);
         pipeline.addStage({
             stageName: 'build',
             actions: [
@@ -50,9 +69,7 @@ export class DemoPipeline extends cdk.Construct {
                     actionName: 'build',
                     input: sourceArtifact,
                     extraInputs: [cdkArtifact],
-                    project: new Project(this, 'DemoProject', {
-                        source: new CodePipelineSource()
-                    })
+                    project: project
                 })
             ]
         });

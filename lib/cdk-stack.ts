@@ -12,7 +12,5 @@ export class CdkStack extends cdk.Stack {
             repo: 'goose',
             owner: 'FabricGroup'
         });
-
-        // The code that defines your stack goes here
     }
 }
