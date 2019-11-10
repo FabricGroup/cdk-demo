@@ -9,7 +9,9 @@ import {Repository} from '@aws-cdk/aws-ecr';
 export interface DemoPipelineProps {
     repo: string
     owner: string
-    branch: string
+    branch: string,
+    githubTokenName: string;
+    ecrRepository: Repository
 }
 
 export class DemoPipeline extends cdk.Construct {
@@ -21,31 +23,18 @@ export class DemoPipeline extends cdk.Construct {
         });
 
         const sourceArtifact = new Artifact('serviceSource');
-        const cdkArtifact = new Artifact('cdkSource');
+        const githubTokenName = props.githubTokenName;
         pipeline.addStage({
             stageName: 'service-source',
             actions: [
                 new GitHubSourceAction({
                     ...props,
                     actionName: 'service-source',
-                    oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
+                    oauthToken: SecretValue.secretsManager(githubTokenName),
                     output: sourceArtifact,
-                    trigger: GitHubTrigger.WEBHOOK
-                }),
-                new GitHubSourceAction({
-                    repo: 'cdk-demo',
-                    owner: 'FabricGroup',
-                    branch: 'development',
-                    actionName: 'github-cdk-source',
-                    oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
-                    output: cdkArtifact,
                     trigger: GitHubTrigger.WEBHOOK
                 })
             ]
-        });
-
-        const ecrRepository = new Repository(this, 'gooseEcrRepo', {
-            repositoryName: 'goose-repo'
         });
 
         const project = new Project(this, 'DemoProject', {
@@ -54,21 +43,20 @@ export class DemoPipeline extends cdk.Construct {
                 privileged: true
             },
             environmentVariables: {
-                IMAGE_REPO_NAME: {value: ecrRepository.repositoryName},
+                IMAGE_REPO_NAME: {value: props.ecrRepository.repositoryName},
                 AWS_ACCOUNT_ID: {value: scope.account},
                 AWS_DEFAULT_REGION: {value: scope.region}
             },
             source: new CodePipelineSource()
         });
 
-        ecrRepository.grantPullPush(project.grantPrincipal);
+        props.ecrRepository.grantPullPush(project.grantPrincipal);
         pipeline.addStage({
             stageName: 'build',
             actions: [
                 new CodeBuildAction({
                     actionName: 'build',
                     input: sourceArtifact,
-                    extraInputs: [cdkArtifact],
                     project: project
                 })
             ]

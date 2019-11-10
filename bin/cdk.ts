@@ -1,7 +1,19 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
+import {DemoServiceStack} from '../lib/demo-service-stack';
+import {InfraStack} from '../lib/infra-stack';
+import {CdkDeployStack} from '../lib/cdk-deploy-stack';
 import cdk = require('@aws-cdk/core');
-import { CdkStack } from '../lib/cdk-stack';
 
 const app = new cdk.App();
-new CdkStack(app, 'demo-stack');
+const defaultStackProps = {
+    tags: {
+        'meetup': 'true'
+    }
+};
+const infraStack = new InfraStack(app, 'infra-stack', defaultStackProps);
+const serviceStack = new DemoServiceStack(app, 'demo-stack', defaultStackProps);
+const cdkStack = new CdkDeployStack(app, 'cdk-deploy-stack', {
+    ...defaultStackProps,
+    deploymentRole: infraStack.deploymentRole,
+    serviceStackName: serviceStack.stackName
+});

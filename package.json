@@ -6,7 +6,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "precdk": "yarn build",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "bootstrap": "yarn cdk deploy infra-stack"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.15.0",
