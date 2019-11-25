@@ -29,6 +29,7 @@ export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> 
           actionName: 'create-changeset',
           stackName,
           changeSetName: `${stackName}-changeset`,
+          runOrder: 1,
           templatePath: inputArtifact.atPath(serviceStackTemplateFile),
           deploymentRole: props.deploymentRole,
           adminPermissions: false
@@ -36,7 +37,8 @@ export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> 
         new CloudFormationExecuteChangeSetAction({
           actionName: 'execute-changeset',
           stackName,
-          changeSetName: `${stackName}-changeset`
+          changeSetName: `${stackName}-changeset`,
+          runOrder: 2
         })
       ]
     })

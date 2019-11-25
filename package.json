@@ -7,7 +7,8 @@
     "test": "jest",
     "precdk": "yarn build",
     "cdk": "cdk",
-    "bootstrap": "yarn cdk deploy infra-stack"
+    "cdk-deploy": "cdk synth && cdk deploy",
+    "bootstrap": "cdk deploy infra-stack"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.17.1",
