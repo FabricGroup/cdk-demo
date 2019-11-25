@@ -1,9 +1,9 @@
-import {DemoPipeline} from "./demo-pipeline";
+import {ServiceDeploymentPipeline} from "./service-deployment-pipeline";
 import {BaseStack} from './base-stack';
 import {Repository} from '@aws-cdk/aws-ecr';
 import {Construct, StackProps} from '@aws-cdk/core';
 
-export class DemoServiceStack extends BaseStack {
+export class ServiceSetupStack extends BaseStack {
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
 
@@ -11,7 +11,7 @@ export class DemoServiceStack extends BaseStack {
             repositoryName: 'goose-repo'
         });
 
-        new DemoPipeline(this, 'DemoPipeline', {
+        new ServiceDeploymentPipeline(this, 'DeploymentPipeline', {
             branch: 'master',
             repo: 'goose',
             owner: 'FabricGroup',

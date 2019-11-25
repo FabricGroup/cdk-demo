@@ -14,7 +14,7 @@ export interface DemoPipelineProps {
     ecrRepository: Repository
 }
 
-export class DemoPipeline extends cdk.Construct {
+export class ServiceDeploymentPipeline extends cdk.Construct {
     constructor(scope: cdk.Stack, id: string, props: DemoPipelineProps) {
         super(scope, id);
 
