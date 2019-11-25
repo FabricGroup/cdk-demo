@@ -5,8 +5,12 @@ import { CDKSynthPipelineAction } from './cdkPipelineAction'
 
 export interface CdkBuildPipelineProps {
   pipelinePrefix: string
-  githubTokenName: string
-  gitBranch?: string
+  cdkSource: {
+    repo: string
+    branch: string
+    owner: string
+    githubTokenName: string
+  }
 }
 
 export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Construct {
@@ -29,11 +33,9 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
       stageName: 'cdk-source',
       actions: [
         new GitHubSourceAction({
-          repo: 'cdk-demo',
-          owner: 'FabricGroup',
-          branch: props.gitBranch ?? 'development',
+          ...props.cdkSource,
           actionName: 'github-cdk-source',
-          oauthToken: SecretValue.secretsManager(props.githubTokenName),
+          oauthToken: SecretValue.secretsManager(props.cdkSource.githubTokenName),
           output: cdkArtifact,
           trigger: GitHubTrigger.WEBHOOK
         })

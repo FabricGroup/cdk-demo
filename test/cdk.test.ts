@@ -7,7 +7,15 @@ test('Service Repo should be created', () => {
   const app = new cdk.App()
   const infraStack = new InfraStack(app, 'infra-stack')
   const role = infraStack.deploymentRole
-  const stack = new CdkSetupStack(app, 'CdkDeployStack', {serviceStackName: 'test', deploymentRole: role})
+  const props = {
+    serviceStackName: 'test',
+    deploymentRole: role,
+    cdkSource: {repo: 'cdk-repo', owner: 'AwesomeOwner', developmentBranch: 'development', masterBranch: 'master', githubTokenName: '/token'},
+    serviceSource: {repo: 'service-repo', owner: 'AwesomeOwner', branch: 'master', githubTokenName: '/token'}
+  }
+
+  const stack = new CdkSetupStack(app, 'CdkDeployStack', props)
+
   expectCDK(stack).to(haveResourceLike('AWS::ECR::Repository', {
     Properties: {
       RepositoryName: 'goose-repo'

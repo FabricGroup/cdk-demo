@@ -10,7 +10,7 @@ export interface CdkDeployPipelineProps extends CdkBuildPipelineProps {
 
 export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> {
   constructor(scope: Construct, id: string, props: CdkDeployPipelineProps) {
-    super(scope, id, {...props, gitBranch: 'master2'})
+    super(scope, id, props)
   }
 
   protected addStages(sourceArtifact: Artifact, props: CdkDeployPipelineProps): Artifact {

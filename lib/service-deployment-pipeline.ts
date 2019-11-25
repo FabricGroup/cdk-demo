@@ -11,13 +11,15 @@ import { stackDeploymentStageOptions } from './stages'
 import { Cache } from '@aws-cdk/aws-codebuild/lib/cache'
 
 export interface ServiceDeploymentPipelineProps {
-  repo: string
-  owner: string
-  branch: string,
-  githubTokenName: string;
   ecrRepository: Repository,
   serviceStackName: string;
   deploymentRole: Role
+  serviceSource: {
+    repo: string
+    githubTokenName: string
+    branch: string
+    owner: string
+  }
 }
 
 export class ServiceDeploymentPipeline extends cdk.Construct {
@@ -33,12 +35,12 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
 
     const sourceArtifact = new Artifact('serviceSource')
     const cdkArtifact = new Artifact('cdkSource')
-    const githubTokenName = props.githubTokenName
+    const githubTokenName = props.serviceSource.githubTokenName
     this.pipeline.addStage({
       stageName: 'service-source',
       actions: [
         new GitHubSourceAction({
-          ...props,
+          ...props.serviceSource,
           actionName: 'service-source',
           oauthToken: SecretValue.secretsManager(githubTokenName),
           output: sourceArtifact,

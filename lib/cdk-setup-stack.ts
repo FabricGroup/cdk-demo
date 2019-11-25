@@ -6,11 +6,22 @@ import { CdkBuildPipeline } from './cdk-build-pipeline'
 import { ServiceSetupConstruct } from './service-setup-construct'
 
 interface CdkDeployStackProps extends StackProps {
-  serviceStackName: string;
+  serviceStackName: string
   deploymentRole: Role
+  cdkSource: {
+    repo: string
+    owner: string
+    githubTokenName: string
+    masterBranch: string
+    developmentBranch: string
+  },
+  serviceSource: {
+    repo: string
+    owner: string
+    githubTokenName: string
+    branch: string
+  }
 }
-
-const githubTokenName = 'cdk-demo/github/goose-token'
 
 export class CdkSetupStack extends BaseStack {
   serviceSetupConstruct: ServiceSetupConstruct
@@ -18,23 +29,26 @@ export class CdkSetupStack extends BaseStack {
   constructor(scope: Construct, id: string, props: CdkDeployStackProps) {
     super(scope, id, props)
 
-    const baseProps = {
-      githubTokenName: githubTokenName
-    }
-
     new CdkBuildPipeline(this, 'CdkBuildPipeline', {
-      ...baseProps,
-      pipelinePrefix: 'cdk-build'
+      pipelinePrefix: 'cdk-build',
+      cdkSource: {
+        ...props.cdkSource,
+        branch: props.cdkSource.developmentBranch
+      }
     })
 
     new CdkDeployPipeline(this, 'CdkDeployPipeline', {
-      ...baseProps,
       pipelinePrefix: 'cdk-deployment',
-      deploymentRole: props.deploymentRole
+      deploymentRole: props.deploymentRole,
+      cdkSource: {
+        ...props.cdkSource,
+        branch: props.cdkSource.masterBranch
+      }
     })
 
     this.serviceSetupConstruct = new ServiceSetupConstruct(this, 'ServiceSetup', {
-      ...baseProps, serviceStackName: props.serviceStackName,
+      serviceSource: props.serviceSource,
+      serviceStackName: props.serviceStackName,
       deploymentRole: props.deploymentRole
     })
   }

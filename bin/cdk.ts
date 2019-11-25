@@ -5,6 +5,7 @@ import cdk = require('@aws-cdk/core');
 import {ServiceDeploymentStack, ServiceDeploymentStackProps} from "../lib/service-deployment-stack";
 
 const serviceStackName = 'goose-service-stack'
+const githubTokenName = 'cdk-demo/github/goose-token'
 
 const app = new cdk.App()
 const defaultStackProps = {
@@ -17,7 +18,20 @@ const infraStack = new InfraStack(app, 'infra-stack', defaultStackProps)
 const cdkSetupStack = new CdkSetupStack(app, 'cdk-deploy-stack', {
     ...defaultStackProps,
     deploymentRole: infraStack.deploymentRole,
-    serviceStackName: serviceStackName
+    serviceStackName: serviceStackName,
+    cdkSource: {
+        repo: 'cdk-demo',
+        githubTokenName: githubTokenName,
+        owner: 'FabricGroup',
+        masterBranch: 'master2',
+        developmentBranch: 'development'
+    },
+    serviceSource: {
+        repo: 'goose',
+        githubTokenName: githubTokenName,
+        owner: 'FabricGroup',
+        branch: 'master'
+    }
 })
 
 const serviceDeploymentStackProps: ServiceDeploymentStackProps = {
