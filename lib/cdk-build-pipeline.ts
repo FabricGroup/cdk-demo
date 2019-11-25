@@ -1,18 +1,18 @@
 import { Artifact, Pipeline } from '@aws-cdk/aws-codepipeline'
-import { CodeBuildAction, GitHubSourceAction, GitHubTrigger } from '@aws-cdk/aws-codepipeline-actions'
-import { Construct, SecretValue, Stack } from '@aws-cdk/core'
-import { BuildSpec, Project } from '@aws-cdk/aws-codebuild'
-import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-source'
+import { GitHubSourceAction, GitHubTrigger } from '@aws-cdk/aws-codepipeline-actions'
+import { Construct, SecretValue } from '@aws-cdk/core'
+import { CDKSynthPipelineAction } from './cdkPipelineAction'
 
 export interface CdkBuildPipelineProps {
   pipelinePrefix: string
+  githubTokenName: string
   gitBranch?: string
 }
 
 export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Construct {
   protected pipeline: Pipeline
 
-  constructor(scope: Stack, id: string, props: TProps) {
+  constructor(private scope: Construct, id: string, props: TProps) {
     super(scope, id)
 
     this.pipeline = new Pipeline(this, 'Pipeline', {
@@ -26,76 +26,27 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
 
   protected addStages(cdkArtifact: Artifact, props: TProps): Artifact {
     this.pipeline.addStage({
-      stageName: 'service-source',
+      stageName: 'cdk-source',
       actions: [
         new GitHubSourceAction({
           repo: 'cdk-demo',
           owner: 'FabricGroup',
           branch: props.gitBranch ?? 'development',
           actionName: 'github-cdk-source',
-          oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
+          oauthToken: SecretValue.secretsManager(props.githubTokenName),
           output: cdkArtifact,
           trigger: GitHubTrigger.WEBHOOK
         })
       ]
     })
 
-    return this.addBuildStage(cdkArtifact, props)
-  }
+    const cdkSynthAction = new CDKSynthPipelineAction(this.scope, props.pipelinePrefix, cdkArtifact)
 
-  private addBuildStage(cdkArtifact: Artifact, props: TProps) {
-    const project = new Project(this, 'CdkUpdateProject', {
-      projectName: `${props.pipelinePrefix}-build-project`,
-      environment: {
-        privileged: false
-      },
-      source: new CodePipelineSource(),
-      buildSpec: BuildSpec.fromObject({
-        version: '0.2',
-        phases: {
-          install: {
-            'runtime-versions': {
-              nodejs: 10
-            },
-            commands: [
-              'apt-get update -y',
-              'apt-get install apt-transport-https',
-              'curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add',
-              'echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list',
-              'apt-get update -y',
-              'apt-get install -y yarn'
-            ]
-          },
-          build: {
-            commands: [
-              'yarn install',
-              'yarn test',
-              'yarn cdk synth'
-            ]
-          }
-        },
-        artifacts: {
-          files: [
-            '*.template.json'
-          ],
-          'discard-paths': true,
-          'base-directory': 'cdk.out'
-        }
-      })
-    })
-
-    const buildOutputArtifact = new Artifact()
     this.pipeline.addStage({
       stageName: 'build',
-      actions: [
-        new CodeBuildAction({
-          actionName: 'build',
-          input: cdkArtifact,
-          project: project,
-          outputs: [buildOutputArtifact]
-        })
-      ]
+      actions: [cdkSynthAction.codeBuildAction]
     })
-    return buildOutputArtifact
+
+    return cdkSynthAction.buildOutputArtifact
   }
 }
