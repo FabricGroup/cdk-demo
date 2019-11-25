@@ -26,7 +26,8 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
     super(scope, id)
 
     this.pipeline = new Pipeline(this, 'DemoCodePipeline', {
-      pipelineName: `${props.serviceStackName}-pipeline`
+      pipelineName: `${props.serviceStackName}-pipeline`,
+      restartExecutionOnUpdate: true
     })
 
     const sourceArtifact = new Artifact('serviceSource')
@@ -59,7 +60,7 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
   }
 
   private addBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
-    const project = new Project(this, 'DemoProject', {
+    const project = new Project(this, 'ServiceProject', {
       projectName: `${props.serviceStackName}-project`,
       environment: {
         //needed for docker
@@ -90,7 +91,7 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
   private addCdkBuildStage(scope: Construct, props: ServiceDeploymentPipelineProps, cdkArtifact: Artifact): Artifact {
     const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceStackName}-cdk`, cdkArtifact)
     this.pipeline.addStage({
-      stageName: 'cdk',
+      stageName: 'generate-stack-template',
       actions: [cdkSynthAction.codeBuildAction]
     })
     return cdkSynthAction.buildOutputArtifact
