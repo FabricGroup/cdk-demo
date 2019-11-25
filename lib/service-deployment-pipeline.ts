@@ -88,7 +88,7 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
   private addCdkBuildStage(scope: Construct, props: ServiceDeploymentPipelineProps, cdkArtifact: Artifact): Artifact {
     const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceStackName}-cdk`, cdkArtifact)
     this.pipeline.addStage({
-      stageName: 'cdk-build',
+      stageName: 'cdk',
       actions: [cdkSynthAction.codeBuildAction]
     })
     return cdkSynthAction.buildOutputArtifact

@@ -6,6 +6,7 @@ import {ServiceDeploymentStack, ServiceDeploymentStackProps} from "../lib/servic
 
 const ACCOUNT_ID = "254147059574"
 const AWS_REGION = "ap-southeast-2"
+const serviceStackName = 'goose-service'
 
 const app = new cdk.App()
 const defaultStackProps = {
@@ -15,7 +16,6 @@ const defaultStackProps = {
 }
 const infraStack = new InfraStack(app, 'infra-stack', defaultStackProps)
 
-const serviceStackName = 'goose-service-stack'
 const cdkSetupStack = new CdkDeployStack(app, 'cdk-deploy-stack', {
     ...defaultStackProps,
     deploymentRole: infraStack.deploymentRole,
@@ -40,5 +40,5 @@ const serviceDeploymentStackProps: ServiceDeploymentStackProps = {
     }
 }
 
-const serviceDeploymentStack = new ServiceDeploymentStack(app, serviceStackName, serviceDeploymentStackProps)
+new ServiceDeploymentStack(app, serviceStackName, serviceDeploymentStackProps)
 

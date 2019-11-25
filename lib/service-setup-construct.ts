@@ -9,7 +9,7 @@ interface ServiceSetupResourceProps {
   deploymentRole: Role
 }
 
-export class ServiceSetupResource extends Resource {
+export class ServiceSetupConstruct extends Construct {
   readonly ecrRepository: Repository
 
   constructor(scope: Construct, id: string, props: ServiceSetupResourceProps) {

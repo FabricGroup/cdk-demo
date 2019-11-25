@@ -3,7 +3,7 @@ import { Construct, StackProps } from '@aws-cdk/core'
 import { Role } from '@aws-cdk/aws-iam'
 import { CdkDeployPipeline } from './cdk-deploy-pipeline'
 import { CdkBuildPipeline } from './cdk-build-pipeline'
-import { ServiceSetupResource } from './service-setup-resource'
+import { ServiceSetupConstruct } from './service-setup-construct'
 import { Repository } from '@aws-cdk/aws-ecr'
 
 interface CdkDeployStackProps extends StackProps {
@@ -28,7 +28,7 @@ export class CdkDeployStack extends BaseStack {
       pipelinePrefix: 'cdk-build'
     })
 
-    const serviceSetupResource = new ServiceSetupResource(this, 'ServiceSetup', {
+    const serviceSetupResource = new ServiceSetupConstruct(this, 'ServiceSetup', {
       ...baseProps, serviceStackName: props.serviceStackName,
       deploymentRole: props.deploymentRole
     })
