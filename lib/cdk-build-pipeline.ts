@@ -16,7 +16,8 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
     super(scope, id)
 
     this.pipeline = new Pipeline(this, 'Pipeline', {
-      pipelineName: `${props.pipelinePrefix}-pipeline`
+      pipelineName: `${props.pipelinePrefix}-pipeline`,
+      restartExecutionOnUpdate: true
     })
 
     const cdkArtifact = new Artifact('cdkSource')
