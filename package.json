@@ -4,9 +4,11 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
+    "test": "yarn build && jest",
     "precdk": "yarn build",
     "cdk": "cdk",
+    "precdk-synth": "rm -rf cdk.out",
+    "cdk-synth": "yarn cdk synth",
     "cdk-deploy": "cdk synth && cdk deploy",
     "bootstrap": "cdk deploy infra-stack"
   },
