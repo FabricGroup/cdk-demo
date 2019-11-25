@@ -3,6 +3,7 @@ import { Artifact } from '@aws-cdk/aws-codepipeline'
 import { CloudFormationCreateReplaceChangeSetAction, CloudFormationExecuteChangeSetAction } from '@aws-cdk/aws-codepipeline-actions'
 import { Role } from '@aws-cdk/aws-iam'
 import { CdkBuildPipeline, CdkBuildPipelineProps } from './cdk-build-pipeline'
+import { CloudFormationCapabilities } from '@aws-cdk/aws-cloudformation'
 
 export interface CdkDeployPipelineProps extends CdkBuildPipelineProps {
   deploymentRole: Role;
@@ -33,7 +34,8 @@ export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> 
           runOrder: 1,
           templatePath: inputArtifact.atPath(serviceStackTemplateFile),
           deploymentRole: props.deploymentRole,
-          adminPermissions: false
+          adminPermissions: false,
+          capabilities: [CloudFormationCapabilities.NAMED_IAM]
         }),
         new CloudFormationExecuteChangeSetAction({
           actionName: 'execute-changeset',
