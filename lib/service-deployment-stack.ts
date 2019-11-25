@@ -6,10 +6,10 @@ import {IRepository} from "@aws-cdk/aws-ecr";
 import {HostedZone} from "@aws-cdk/aws-route53";
 
 export interface ServiceDeploymentStackProps extends StackProps {
-    name: string
     ecrRepo: IRepository;
     containerPort: number,
     environmentVars: {[key: string]: string},
+    dnsName: string
     hostedZone: {
         id: string,
         name: string
@@ -25,7 +25,7 @@ export class ServiceDeploymentStack extends BaseStack {
 
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, "HostedZone", {
             hostedZoneId: props.hostedZone.id,
-            zoneName: `${props.name}.${props.hostedZone.name}`
+            zoneName: `${props.dnsName}.${props.hostedZone.name}`
         })
 
         new ApplicationLoadBalancedFargateService(this, "FargateResource", {

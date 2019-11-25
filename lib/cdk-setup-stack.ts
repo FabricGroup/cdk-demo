@@ -4,7 +4,6 @@ import { Role } from '@aws-cdk/aws-iam'
 import { CdkDeployPipeline } from './cdk-deploy-pipeline'
 import { CdkBuildPipeline } from './cdk-build-pipeline'
 import { ServiceSetupConstruct } from './service-setup-construct'
-import { Repository } from '@aws-cdk/aws-ecr'
 
 interface CdkDeployStackProps extends StackProps {
   serviceStackName: string;
@@ -13,8 +12,8 @@ interface CdkDeployStackProps extends StackProps {
 
 const githubTokenName = 'cdk-demo/github/goose-token'
 
-export class CdkDeployStack extends BaseStack {
-  readonly ecrRepository: Repository
+export class CdkSetupStack extends BaseStack {
+  serviceSetupConstruct: ServiceSetupConstruct
 
   constructor(scope: Construct, id: string, props: CdkDeployStackProps) {
     super(scope, id, props)
@@ -28,16 +27,14 @@ export class CdkDeployStack extends BaseStack {
       pipelinePrefix: 'cdk-build'
     })
 
-    const serviceSetupResource = new ServiceSetupConstruct(this, 'ServiceSetup', {
-      ...baseProps, serviceStackName: props.serviceStackName,
-      deploymentRole: props.deploymentRole
-    })
-
-    this.ecrRepository = serviceSetupResource.ecrRepository
-
     new CdkDeployPipeline(this, 'CdkDeployPipeline', {
       ...baseProps,
       pipelinePrefix: 'cdk-deployment',
+      deploymentRole: props.deploymentRole
+    })
+
+    this.serviceSetupConstruct = new ServiceSetupConstruct(this, 'ServiceSetup', {
+      ...baseProps, serviceStackName: props.serviceStackName,
       deploymentRole: props.deploymentRole
     })
   }

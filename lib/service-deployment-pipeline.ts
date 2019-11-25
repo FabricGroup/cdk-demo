@@ -7,7 +7,7 @@ import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-sour
 import { Repository } from '@aws-cdk/aws-ecr'
 import { IRole, Role } from '@aws-cdk/aws-iam'
 import { CDKSynthPipelineAction } from './cdkPipelineAction'
-import { stackDeploymentStage } from './stages'
+import { stackDeploymentStageOptions } from './stages'
 
 export interface ServiceDeploymentPipelineProps {
   repo: string
@@ -62,9 +62,11 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
     const project = new Project(this, 'DemoProject', {
       projectName: `${props.serviceStackName}-project`,
       environment: {
+        //needed for docker
         privileged: true
       },
       environmentVariables: {
+        //for buildspec.yaml
         IMAGE_REPO_NAME: {value: props.ecrRepository.repositoryName},
         AWS_ACCOUNT_ID: {value: Fn.sub('${AWS::AccountId}')},
         AWS_DEFAULT_REGION: {value: Fn.sub('${AWS::Region}')}
@@ -95,6 +97,6 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
   }
 
   private addDeploymentStage(inputArtifact: Artifact, stackName: string, deploymentRole: IRole) {
-    this.pipeline.addStage(stackDeploymentStage(stackName, inputArtifact, deploymentRole))
+    this.pipeline.addStage(stackDeploymentStageOptions(stackName, inputArtifact, deploymentRole))
   }
 }

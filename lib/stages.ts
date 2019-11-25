@@ -4,7 +4,7 @@ import { CloudFormationCreateReplaceChangeSetAction, CloudFormationExecuteChange
 import { CloudFormationCapabilities } from '@aws-cdk/aws-cloudformation'
 import { StageOptions } from '@aws-cdk/aws-codepipeline/lib/pipeline'
 
-export function stackDeploymentStage(stackName: string, inputArtifact: Artifact, deploymentRole: IRole): StageOptions {
+export function stackDeploymentStageOptions(stackName: string, inputArtifact: Artifact, deploymentRole: IRole): StageOptions {
   return {
     stageName: `${stackName}-deploy`,
     actions: [

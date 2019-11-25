@@ -2,7 +2,7 @@ import { Artifact } from '@aws-cdk/aws-codepipeline'
 import { IRole, Role } from '@aws-cdk/aws-iam'
 import { CdkBuildPipeline, CdkBuildPipelineProps } from './cdk-build-pipeline'
 import { Construct } from '@aws-cdk/core'
-import { stackDeploymentStage } from './stages'
+import { stackDeploymentStageOptions } from './stages'
 
 export interface CdkDeployPipelineProps extends CdkBuildPipelineProps {
   deploymentRole: Role;
@@ -20,6 +20,6 @@ export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> 
   }
 
   private addDeploymentStages(cdkBuildArtifact: Artifact, stackName: string, deploymentRole: IRole) {
-    this.pipeline.addStage(stackDeploymentStage(stackName, cdkBuildArtifact, deploymentRole))
+    this.pipeline.addStage(stackDeploymentStageOptions(stackName, cdkBuildArtifact, deploymentRole))
   }
 }
