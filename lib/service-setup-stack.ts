@@ -4,10 +4,12 @@ import {Repository} from '@aws-cdk/aws-ecr';
 import {Construct, StackProps} from '@aws-cdk/core';
 
 export class ServiceSetupStack extends BaseStack {
+    public readonly ecrRepo: Repository
+
     constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
 
-        const ecrRepository = new Repository(this, 'gooseEcrRepo', {
+        this.ecrRepo = new Repository(this, 'gooseEcrRepo', {
             repositoryName: 'goose-repo'
         });
 
@@ -16,7 +18,7 @@ export class ServiceSetupStack extends BaseStack {
             repo: 'goose',
             owner: 'FabricGroup',
             githubTokenName: 'cdk-demo/github/goose-token',
-            ecrRepository: ecrRepository
+            ecrRepository: this.ecrRepo
         });
     }
 }

@@ -1,0 +1,24 @@
+{
+  "vpc-provider:account=254147059574:filter.isDefault=true:region=ap-southeast-2:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-61a44804",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-387f8c5d",
+            "availabilityZone": "ap-southeast-2a",
+            "routeTableId": "rtb-f3ab4296"
+          },
+          {
+            "subnetId": "subnet-b54851c1",
+            "availabilityZone": "ap-southeast-2b",
+            "routeTableId": "rtb-f3ab4296"
+          }
+        ]
+      }
+    ]
+  }
+}
