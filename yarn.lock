@@ -382,7 +382,7 @@
     "@aws-cdk/core" "1.17.1"
     "@aws-cdk/region-info" "1.17.1"
 
-"@aws-cdk/aws-route53@1.17.1":
+"@aws-cdk/aws-route53@1.17.1", "@aws-cdk/aws-route53@^1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-route53/-/aws-route53-1.17.1.tgz#446068194a3620ff493ebdfdabade3b530f7ddc1"
   integrity sha512-kBemK7l1L6eYJfP5rbnLIIdI8xtQNPQPPiAYaoDAnM7A2sD76tplwmFB3FXojPkFpiPRPuZpsK0SbuD+IAaVqQ==

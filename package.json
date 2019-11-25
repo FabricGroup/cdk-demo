@@ -7,7 +7,7 @@
     "test": "jest",
     "precdk": "yarn build",
     "cdk": "cdk",
-    "cdk-deploy": "cdk synth && cdk deploy",
+    "cdk-deploy": "yarn cdk synth && cdk deploy",
     "bootstrap": "cdk deploy infra-stack"
   },
   "license": "UNLICENSED",
@@ -32,6 +32,7 @@
     "@aws-cdk/aws-events": "^1.17.1",
     "@aws-cdk/aws-iam": "^1.17.1",
     "@aws-cdk/aws-kms": "^1.17.1",
+    "@aws-cdk/aws-route53": "^1.17.1",
     "@aws-cdk/aws-s3": "^1.17.1",
     "@aws-cdk/core": "^1.17.1",
     "@aws-cdk/region-info": "^1.17.1",
