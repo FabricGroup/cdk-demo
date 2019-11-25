@@ -23,7 +23,7 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
     this.addStages(cdkArtifact, props)
   }
 
-  protected addStages(cdkArtifact: Artifact, props: TProps) {
+  protected addStages(cdkArtifact: Artifact, props: TProps): Artifact {
     this.pipeline.addStage({
       stageName: 'service-source',
       actions: [
@@ -39,7 +39,7 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
       ]
     })
 
-    this.addBuildStage(cdkArtifact, props)
+    return this.addBuildStage(cdkArtifact, props)
   }
 
   private addBuildStage(cdkArtifact: Artifact, props: TProps) {

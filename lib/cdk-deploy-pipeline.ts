@@ -14,10 +14,11 @@ export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> 
     super(scope, id, {...props, gitBranch: 'master2'})
   }
 
-  protected addStages(buildOutputArtifact: Artifact, props: CdkDeployPipelineProps) {
-    super.addStages(buildOutputArtifact, props)
-    this.addDeploymentStages(buildOutputArtifact, props, 'cdk-deploy-stack')
-    this.addDeploymentStages(buildOutputArtifact, props, props.serviceStackName)
+  protected addStages(sourceArtifact: Artifact, props: CdkDeployPipelineProps): Artifact {
+    const buildArtifact = super.addStages(sourceArtifact, props)
+    this.addDeploymentStages(buildArtifact, props, 'cdk-deploy-stack')
+    this.addDeploymentStages(buildArtifact, props, props.serviceStackName)
+    return buildArtifact
   }
 
   private addDeploymentStages(inputArtifact: Artifact, props: CdkDeployPipelineProps, stackName: string) {
