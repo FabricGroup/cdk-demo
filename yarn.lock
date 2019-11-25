@@ -89,7 +89,7 @@
     "@aws-cdk/aws-route53" "1.17.1"
     "@aws-cdk/core" "1.17.1"
 
-"@aws-cdk/aws-cloudformation@1.17.1":
+"@aws-cdk/aws-cloudformation@1.17.1", "@aws-cdk/aws-cloudformation@^1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-cloudformation/-/aws-cloudformation-1.17.1.tgz#b9c30d5ab8783df741dc125816ada355e6104af1"
   integrity sha512-WOLx28d1IICfR9PxUpM0ky/H06/zMTpbW+K7xPp+EZNcfi5qfvXhJoO1Avi1rfbJOZz18lM2p99fuisBXxP9Tg==
@@ -230,7 +230,26 @@
     "@aws-cdk/aws-iam" "1.17.1"
     "@aws-cdk/core" "1.17.1"
 
-"@aws-cdk/aws-ecs@1.17.1":
+"@aws-cdk/aws-ecs-patterns@^1.17.1":
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-ecs-patterns/-/aws-ecs-patterns-1.17.1.tgz#fb1917274a0021527230189a834ca75e677b659a"
+  integrity sha512-r5JbiR9Gz41vG4+7y8mRMRlfPrjrBEEpaGx7t3xH9vsQFzicCNfqd/Y0y3dTTk7P8diYkMHBjwJsFYQq8bIOMw==
+  dependencies:
+    "@aws-cdk/aws-applicationautoscaling" "1.17.1"
+    "@aws-cdk/aws-certificatemanager" "1.17.1"
+    "@aws-cdk/aws-ec2" "1.17.1"
+    "@aws-cdk/aws-ecs" "1.17.1"
+    "@aws-cdk/aws-elasticloadbalancingv2" "1.17.1"
+    "@aws-cdk/aws-events" "1.17.1"
+    "@aws-cdk/aws-events-targets" "1.17.1"
+    "@aws-cdk/aws-iam" "1.17.1"
+    "@aws-cdk/aws-route53" "1.17.1"
+    "@aws-cdk/aws-route53-targets" "1.17.1"
+    "@aws-cdk/aws-servicediscovery" "1.17.1"
+    "@aws-cdk/aws-sqs" "1.17.1"
+    "@aws-cdk/core" "1.17.1"
+
+"@aws-cdk/aws-ecs@1.17.1", "@aws-cdk/aws-ecs@^1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-ecs/-/aws-ecs-1.17.1.tgz#b85a51cceb08c194bbf1316c58ac42782d0ec550"
   integrity sha512-Etg0vnLWVDyyncFYncaGk3KPLGdU6FTVGSEGhfcvvBsQY6jjrmVyKuacjUTDoJydj9Q+GpwmUCKR+RPdEU2zuQ==
