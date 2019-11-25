@@ -6,10 +6,14 @@ import {IRepository} from "@aws-cdk/aws-ecr";
 import {HostedZone} from "@aws-cdk/aws-route53";
 
 export interface ServiceDeploymentStackProps extends StackProps {
+    name: string
     ecrRepo: IRepository;
     containerPort: number,
     environmentVars: {[key: string]: string},
-    hostedZoneId: string
+    hostedZone: {
+        id: string,
+        name: string
+    }
 }
 
 export class ServiceDeploymentStack extends BaseStack {
@@ -19,7 +23,10 @@ export class ServiceDeploymentStack extends BaseStack {
         // create an ecs cluster which is a logical boundary around fargate and ec2 container deployments
         const cluster = new Cluster(this, "DemoCluster")
 
-        const hostedZone = HostedZone.fromHostedZoneId(this, "HostedZone", props.hostedZoneId)
+        const hostedZone = HostedZone.fromHostedZoneAttributes(this, "HostedZone", {
+            hostedZoneId: props.hostedZone.id,
+            zoneName: `${props.name}.${props.hostedZone.name}`
+        })
 
         new ApplicationLoadBalancedFargateService(this, "FargateResource", {
             cluster,
@@ -27,6 +34,8 @@ export class ServiceDeploymentStack extends BaseStack {
             memoryLimitMiB: 512,
             desiredCount: 1,
             publicLoadBalancer: true,
+            domainZone: hostedZone,
+            domainName: props.hostedZone.name,
             taskImageOptions: {
                 image: ContainerImage.fromEcrRepository(props.ecrRepo),
                 containerPort: props.containerPort,
