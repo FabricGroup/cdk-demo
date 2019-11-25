@@ -2,12 +2,13 @@ import cdk = require('@aws-cdk/core')
 import { Artifact, Pipeline } from '@aws-cdk/aws-codepipeline'
 import { CodeBuildAction, GitHubSourceAction, GitHubTrigger } from '@aws-cdk/aws-codepipeline-actions'
 import { Construct, Fn, SecretValue } from '@aws-cdk/core'
-import { Project } from '@aws-cdk/aws-codebuild'
+import { LocalCacheMode, Project } from '@aws-cdk/aws-codebuild'
 import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-source'
 import { Repository } from '@aws-cdk/aws-ecr'
 import { IRole, Role } from '@aws-cdk/aws-iam'
 import { CDKSynthPipelineAction } from './cdkPipelineAction'
 import { stackDeploymentStageOptions } from './stages'
+import { Cache } from '@aws-cdk/aws-codebuild/lib/cache'
 
 export interface ServiceDeploymentPipelineProps {
   repo: string
@@ -61,7 +62,7 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
 
   private addBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
     const project = new Project(this, 'ServiceProject', {
-      projectName: `${props.serviceStackName}-project`,
+      projectName: `${props.serviceStackName}-codebuild-project`,
       environment: {
         //needed for docker
         privileged: true
@@ -72,6 +73,7 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
         AWS_ACCOUNT_ID: {value: Fn.sub('${AWS::AccountId}')},
         AWS_DEFAULT_REGION: {value: Fn.sub('${AWS::Region}')}
       },
+      cache: Cache.local(LocalCacheMode.DOCKER_LAYER),
       source: new CodePipelineSource()
     })
 

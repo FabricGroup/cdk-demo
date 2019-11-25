@@ -25,7 +25,7 @@ export class ServiceDeploymentStack extends BaseStack {
 
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, "HostedZone", {
             hostedZoneId: props.hostedZone.id,
-            zoneName: `${props.dnsName}.${props.hostedZone.name}`
+            zoneName: props.hostedZone.name
         })
 
         new ApplicationLoadBalancedFargateService(this, "FargateResource", {
@@ -35,7 +35,7 @@ export class ServiceDeploymentStack extends BaseStack {
             desiredCount: 1,
             publicLoadBalancer: true,
             domainZone: hostedZone,
-            domainName: props.hostedZone.name,
+            domainName: props.dnsName,
             taskImageOptions: {
                 image: ContainerImage.fromEcrRepository(props.ecrRepo),
                 containerPort: props.containerPort,
