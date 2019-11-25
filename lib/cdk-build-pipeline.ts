@@ -6,6 +6,7 @@ import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-sour
 
 export interface CdkBuildPipelineProps {
   pipelineName: string
+  gitBranch?: string
 }
 
 export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Construct {
@@ -29,7 +30,7 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
         new GitHubSourceAction({
           repo: 'cdk-demo',
           owner: 'FabricGroup',
-          branch: 'development',
+          branch: props.gitBranch ?? 'development',
           actionName: 'github-cdk-source',
           oauthToken: SecretValue.secretsManager('cdk-demo/github/goose-token'),
           output: cdkArtifact,

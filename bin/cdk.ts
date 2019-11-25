@@ -12,7 +12,7 @@ const defaultStackProps = {
 };
 const infraStack = new InfraStack(app, 'infra-stack', defaultStackProps);
 const serviceStack = new DemoServiceStack(app, 'demo-stack', defaultStackProps);
-const cdkStack = new CdkDeployStack(app, 'cdk-deploy-stack', {
+new CdkDeployStack(app, 'cdk-deploy-stack', {
     ...defaultStackProps,
     deploymentRole: infraStack.deploymentRole,
     serviceStackName: serviceStack.stackName
