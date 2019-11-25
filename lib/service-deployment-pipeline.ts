@@ -1,21 +1,15 @@
 import cdk = require('@aws-cdk/core')
 import { Artifact, Pipeline } from '@aws-cdk/aws-codepipeline'
-import {
-  CloudFormationCreateReplaceChangeSetAction,
-  CloudFormationExecuteChangeSetAction,
-  CodeBuildAction,
-  GitHubSourceAction,
-  GitHubTrigger
-} from '@aws-cdk/aws-codepipeline-actions'
+import { CodeBuildAction, GitHubSourceAction, GitHubTrigger } from '@aws-cdk/aws-codepipeline-actions'
 import { Construct, Fn, SecretValue } from '@aws-cdk/core'
 import { Project } from '@aws-cdk/aws-codebuild'
 import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-source'
 import { Repository } from '@aws-cdk/aws-ecr'
 import { IRole, Role } from '@aws-cdk/aws-iam'
-import { CloudFormationCapabilities } from '@aws-cdk/aws-cloudformation'
 import { CDKSynthPipelineAction } from './cdkPipelineAction'
+import { stackDeploymentStage } from './stages'
 
-export interface DemoPipelineProps {
+export interface ServiceDeploymentPipelineProps {
   repo: string
   owner: string
   branch: string,
@@ -28,7 +22,7 @@ export interface DemoPipelineProps {
 export class ServiceDeploymentPipeline extends cdk.Construct {
   private pipeline: Pipeline
 
-  constructor(scope: Construct, id: string, props: DemoPipelineProps) {
+  constructor(scope: Construct, id: string, props: ServiceDeploymentPipelineProps) {
     super(scope, id)
 
     this.pipeline = new Pipeline(this, 'DemoCodePipeline', {
@@ -60,16 +54,11 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
       ]
     })
     this.addBuildStage(props, sourceArtifact)
-    const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceStackName}-cdk`, cdkArtifact)
-    this.pipeline.addStage({
-      stageName: 'cdk-build',
-      actions: [cdkSynthAction.codeBuildAction]
-    })
-
-    this.addDeploymentStages(cdkSynthAction.buildOutputArtifact, props.serviceStackName, props.deploymentRole)
+    const cdkBuildArtifact = this.addCdkBuildStage(scope, props, cdkArtifact)
+    this.addDeploymentStage(cdkBuildArtifact, props.serviceStackName, props.deploymentRole)
   }
 
-  private addBuildStage(props: DemoPipelineProps, sourceArtifact: Artifact) {
+  private addBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
     const project = new Project(this, 'DemoProject', {
       projectName: `${props.serviceStackName}-project`,
       environment: {
@@ -96,28 +85,16 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
     })
   }
 
-  private addDeploymentStages(inputArtifact: Artifact, stackName: string, deploymentRole: IRole) {
-    const serviceStackTemplateFile = `${stackName}.template.json`
+  private addCdkBuildStage(scope: Construct, props: ServiceDeploymentPipelineProps, cdkArtifact: Artifact): Artifact {
+    const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceStackName}-cdk`, cdkArtifact)
     this.pipeline.addStage({
-      stageName: `${stackName}-deploy`,
-      actions: [
-        new CloudFormationCreateReplaceChangeSetAction({
-          actionName: 'create-changeset',
-          stackName,
-          changeSetName: `${stackName}-changeset`,
-          runOrder: 1,
-          templatePath: inputArtifact.atPath(serviceStackTemplateFile),
-          deploymentRole: deploymentRole,
-          adminPermissions: false,
-          capabilities: [CloudFormationCapabilities.NAMED_IAM]
-        }),
-        new CloudFormationExecuteChangeSetAction({
-          actionName: 'execute-changeset',
-          stackName,
-          changeSetName: `${stackName}-changeset`,
-          runOrder: 2
-        })
-      ]
+      stageName: 'cdk-build',
+      actions: [cdkSynthAction.codeBuildAction]
     })
+    return cdkSynthAction.buildOutputArtifact
+  }
+
+  private addDeploymentStage(inputArtifact: Artifact, stackName: string, deploymentRole: IRole) {
+    this.pipeline.addStage(stackDeploymentStage(stackName, inputArtifact, deploymentRole))
   }
 }

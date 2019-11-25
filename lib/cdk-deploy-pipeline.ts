@@ -1,9 +1,8 @@
 import { Artifact } from '@aws-cdk/aws-codepipeline'
-import { CloudFormationCreateReplaceChangeSetAction, CloudFormationExecuteChangeSetAction } from '@aws-cdk/aws-codepipeline-actions'
-import { Role } from '@aws-cdk/aws-iam'
+import { IRole, Role } from '@aws-cdk/aws-iam'
 import { CdkBuildPipeline, CdkBuildPipelineProps } from './cdk-build-pipeline'
-import { CloudFormationCapabilities } from '@aws-cdk/aws-cloudformation'
-import { Construct} from '@aws-cdk/core'
+import { Construct } from '@aws-cdk/core'
+import { stackDeploymentStage } from './stages'
 
 export interface CdkDeployPipelineProps extends CdkBuildPipelineProps {
   deploymentRole: Role;
@@ -16,32 +15,11 @@ export class CdkDeployPipeline extends CdkBuildPipeline<CdkDeployPipelineProps> 
 
   protected addStages(sourceArtifact: Artifact, props: CdkDeployPipelineProps): Artifact {
     const buildArtifact = super.addStages(sourceArtifact, props)
-    this.addDeploymentStages(buildArtifact, props, 'cdk-deploy-stack')
+    this.addDeploymentStages(buildArtifact, 'cdk-deploy-stack', props.deploymentRole)
     return buildArtifact
   }
 
-  private addDeploymentStages(inputArtifact: Artifact, props: CdkDeployPipelineProps, stackName: string) {
-    const serviceStackTemplateFile = `${stackName}.template.json`
-    this.pipeline.addStage({
-      stageName: `${stackName}-deploy`,
-      actions: [
-        new CloudFormationCreateReplaceChangeSetAction({
-          actionName: 'create-changeset',
-          stackName,
-          changeSetName: `${stackName}-changeset`,
-          runOrder: 1,
-          templatePath: inputArtifact.atPath(serviceStackTemplateFile),
-          deploymentRole: props.deploymentRole,
-          adminPermissions: false,
-          capabilities: [CloudFormationCapabilities.NAMED_IAM]
-        }),
-        new CloudFormationExecuteChangeSetAction({
-          actionName: 'execute-changeset',
-          stackName,
-          changeSetName: `${stackName}-changeset`,
-          runOrder: 2
-        })
-      ]
-    })
+  private addDeploymentStages(cdkBuildArtifact: Artifact, stackName: string, deploymentRole: IRole) {
+    this.pipeline.addStage(stackDeploymentStage(stackName, cdkBuildArtifact, deploymentRole))
   }
 }
