@@ -12,9 +12,9 @@
 ### Container
 
 - local running simple container
-  - chekcout goose repo `git clone git@github.com:FabricGroup/goose.git`
+  - checkout goose repo `git clone git@github.com:FabricGroup/goose.git`
   - build container `make build`
-  - run container `make build`
+  - run container `make start`
   - verify running container `curl localhost:8083/goo`
   - health check is at `curl localhost:8083/heartbeat`
 - setup pipeline using cdk
@@ -23,10 +23,13 @@
 - gitops: increase number of instances
 - gitops: add lb
 
-### After every step
-
-- cf walkthrough
-
 ### Post Demo
 
 - talk about current work
+
+### TODO
+- working code
+- sensible git commits
+- architecture diagram
+- intro slides
+- current work manifest and diagram
