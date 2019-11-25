@@ -5,7 +5,7 @@ import { BuildSpec, Project } from '@aws-cdk/aws-codebuild'
 import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-source'
 
 export interface CdkBuildPipelineProps {
-  pipelineName: string
+  pipelinePrefix: string
   gitBranch?: string
 }
 
@@ -16,7 +16,7 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
     super(scope, id)
 
     this.pipeline = new Pipeline(this, 'Pipeline', {
-      pipelineName: props.pipelineName
+      pipelineName: `${props.pipelinePrefix}-pipeline`
     })
 
     const cdkArtifact = new Artifact('cdkSource')
@@ -39,12 +39,12 @@ export class CdkBuildPipeline<TProps extends CdkBuildPipelineProps> extends Cons
       ]
     })
 
-    this.addBuildStage(cdkArtifact)
+    this.addBuildStage(cdkArtifact, props)
   }
 
-  private addBuildStage(cdkArtifact: Artifact) {
+  private addBuildStage(cdkArtifact: Artifact, props: TProps) {
     const project = new Project(this, 'CdkUpdateProject', {
-      projectName: 'cdk-deployment-project',
+      projectName: `${props.pipelinePrefix}-build-project`,
       environment: {
         privileged: false
       },

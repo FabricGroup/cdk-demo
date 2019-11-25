@@ -14,11 +14,11 @@ export class CdkDeployStack extends BaseStack {
     super(scope, id, props)
 
     new CdkBuildPipeline(this, 'CdkBuildPipeline', {
-      pipelineName: 'cdk-build-pipeline'
+      pipelinePrefix: 'cdk-build'
     })
 
     new CdkDeployPipeline(this, 'CdkDeployPipeline', {
-      pipelineName: 'cdk-deployment-pipeline',
+      pipelinePrefix: 'cdk-deployment',
       serviceStackName: props.serviceStackName,
       deploymentRole: props.deploymentRole
     })
