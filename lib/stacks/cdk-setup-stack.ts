@@ -11,6 +11,7 @@ interface CdkDeployStackProps extends StackProps {
         githubTokenName: string
         branch: string
     }
+    serviceSetupStackName: string
 }
 
 export class CdkSetupStack extends BaseStack {
