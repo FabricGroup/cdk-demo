@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import { App } from '@aws-cdk/core'
-import { InfraStack } from '../lib/infra-stack'
+import { InfraStack } from '../lib/stacks/infra-stack'
+import { CdkSetupStack } from '../lib/stacks/cdk-setup-stack'
+
+const githubTokenName = 'cdk-demo/github/goose-token'
 
 const app = new App()
 const defaultStackProps = {
@@ -10,4 +13,15 @@ const defaultStackProps = {
     }
 }
 
-new InfraStack(app, 'infra-stack', defaultStackProps)
+const infraStack = new InfraStack(app, 'infra-stack', defaultStackProps)
+
+new CdkSetupStack(app, 'cdk-deploy-stack', {
+    ...defaultStackProps,
+    cdkSource: {
+        repo: 'cdk-demo',
+        githubTokenName: githubTokenName,
+        owner: 'FabricGroup',
+        branch: 'master2'
+    },
+    deploymentRole: infraStack.deploymentRole
+})
