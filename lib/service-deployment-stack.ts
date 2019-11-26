@@ -21,7 +21,7 @@ export class ServiceDeploymentStack extends BaseStack {
         super(scope, id, props)
 
         // create an ecs cluster which is a logical boundary around fargate and ec2 container deployments
-        const cluster = new Cluster(this, 'DemoCluster')
+        const cluster = new Cluster(this, 'ServiceCluster')
 
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
             hostedZoneId: props.hostedZone.id,

@@ -1,4 +1,3 @@
-import cdk = require('@aws-cdk/core')
 import { Artifact, Pipeline } from '@aws-cdk/aws-codepipeline'
 import { CodeBuildAction, GitHubSourceAction, GitHubTrigger } from '@aws-cdk/aws-codepipeline-actions'
 import { Construct, Fn, SecretValue } from '@aws-cdk/core'
@@ -22,13 +21,13 @@ export interface ServiceDeploymentPipelineProps {
     }
 }
 
-export class ServiceDeploymentPipeline extends cdk.Construct {
+export class ServiceDeploymentPipeline extends Construct {
     private pipeline: Pipeline
 
     constructor(scope: Construct, id: string, props: ServiceDeploymentPipelineProps) {
         super(scope, id)
 
-        this.pipeline = new Pipeline(this, 'DemoCodePipeline', {
+        this.pipeline = new Pipeline(this, id, {
             pipelineName: `${props.serviceStackName}-pipeline`,
             restartExecutionOnUpdate: true
         })
