@@ -33,6 +33,13 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
             restartExecutionOnUpdate: true
         })
 
+        const {sourceArtifact, cdkArtifact} = this.addSourceStage(props)
+        this.addServiceBuildStage(props, sourceArtifact)
+        const cdkBuildArtifact = this.addCdkBuildStage(scope, props, cdkArtifact)
+        this.addDeploymentStage(cdkBuildArtifact, props.serviceStackName, props.deploymentRole)
+    }
+
+    private addSourceStage(props: ServiceDeploymentPipelineProps) {
         const sourceArtifact = new Artifact('serviceSource')
         const cdkArtifact = new Artifact('cdkSource')
         const githubTokenName = props.serviceSource.githubTokenName
@@ -57,12 +64,10 @@ export class ServiceDeploymentPipeline extends cdk.Construct {
                 })
             ]
         })
-        this.addBuildStage(props, sourceArtifact)
-        const cdkBuildArtifact = this.addCdkBuildStage(scope, props, cdkArtifact)
-        this.addDeploymentStage(cdkBuildArtifact, props.serviceStackName, props.deploymentRole)
+        return {sourceArtifact, cdkArtifact}
     }
 
-    private addBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
+    private addServiceBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
         const project = new Project(this, 'ServiceProject', {
             projectName: `${props.serviceStackName}-codebuild-project`,
             environment: {
