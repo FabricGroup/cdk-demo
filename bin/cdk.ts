@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-import {InfraStack} from '../lib/infra-stack';
-import {CdkSetupStack} from '../lib/cdk-setup-stack';
-import cdk = require('@aws-cdk/core');
-import {ServiceDeploymentStack, ServiceDeploymentStackProps} from "../lib/service-deployment-stack";
+import { InfraStack } from '../lib/infra-stack'
+import { CdkSetupStack } from '../lib/cdk-setup-stack'
+import { ServiceDeploymentStack, ServiceDeploymentStackProps } from '../lib/service-deployment-stack'
+import { App } from '@aws-cdk/core'
 
 const serviceStackName = 'goose-service-stack'
 const githubTokenName = 'cdk-demo/github/goose-token'
 
-const app = new cdk.App()
+const app = new App()
 const defaultStackProps = {
     tags: {
         'meetup': 'true'
@@ -39,12 +39,12 @@ const serviceDeploymentStackProps: ServiceDeploymentStackProps = {
     ecrRepo: cdkSetupStack.serviceSetupConstruct.ecrRepository,
     containerPort: 8083,
     environmentVars: {
-        PORT: "8083"
+        PORT: '8083'
     },
     dnsName: 'goose',
     hostedZone: {
-        id: "Z20QY3N3V946UQ",
-        name: "dev.fabricgroup.com.au"
+        id: 'Z20QY3N3V946UQ',
+        name: 'dev.fabricgroup.com.au'
     }
 }
 

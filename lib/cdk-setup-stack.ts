@@ -6,50 +6,50 @@ import { CdkBuildPipeline } from './cdk-build-pipeline'
 import { ServiceSetupConstruct } from './service-setup-construct'
 
 interface CdkDeployStackProps extends StackProps {
-  serviceStackName: string
-  deploymentRole: Role
-  cdkSource: {
-    repo: string
-    owner: string
-    githubTokenName: string
-    masterBranch: string
-    developmentBranch: string
-  },
-  serviceSource: {
-    repo: string
-    owner: string
-    githubTokenName: string
-    branch: string
-  }
+    serviceStackName: string
+    deploymentRole: Role
+    cdkSource: {
+        repo: string
+        owner: string
+        githubTokenName: string
+        masterBranch: string
+        developmentBranch: string
+    },
+    serviceSource: {
+        repo: string
+        owner: string
+        githubTokenName: string
+        branch: string
+    }
 }
 
 export class CdkSetupStack extends BaseStack {
-  serviceSetupConstruct: ServiceSetupConstruct
+    serviceSetupConstruct: ServiceSetupConstruct
 
-  constructor(scope: Construct, id: string, props: CdkDeployStackProps) {
-    super(scope, id, props)
+    constructor(scope: Construct, id: string, props: CdkDeployStackProps) {
+        super(scope, id, props)
 
-    new CdkBuildPipeline(this, 'CdkBuildPipeline', {
-      pipelinePrefix: 'cdk-build',
-      cdkSource: {
-        ...props.cdkSource,
-        branch: props.cdkSource.developmentBranch
-      }
-    })
+        new CdkBuildPipeline(this, 'CdkBuildPipeline', {
+            pipelinePrefix: 'cdk-build',
+            cdkSource: {
+                ...props.cdkSource,
+                branch: props.cdkSource.developmentBranch
+            }
+        })
 
-    new CdkDeployPipeline(this, 'CdkDeployPipeline', {
-      pipelinePrefix: 'cdk-deployment',
-      deploymentRole: props.deploymentRole,
-      cdkSource: {
-        ...props.cdkSource,
-        branch: props.cdkSource.masterBranch
-      }
-    })
+        new CdkDeployPipeline(this, 'CdkDeployPipeline', {
+            pipelinePrefix: 'cdk-deployment',
+            deploymentRole: props.deploymentRole,
+            cdkSource: {
+                ...props.cdkSource,
+                branch: props.cdkSource.masterBranch
+            }
+        })
 
-    this.serviceSetupConstruct = new ServiceSetupConstruct(this, 'ServiceSetup', {
-      serviceSource: props.serviceSource,
-      serviceStackName: props.serviceStackName,
-      deploymentRole: props.deploymentRole
-    })
-  }
+        this.serviceSetupConstruct = new ServiceSetupConstruct(this, 'ServiceSetup', {
+            serviceSource: props.serviceSource,
+            serviceStackName: props.serviceStackName,
+            deploymentRole: props.deploymentRole
+        })
+    }
 }
