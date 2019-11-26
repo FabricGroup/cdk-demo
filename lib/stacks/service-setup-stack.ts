@@ -2,6 +2,7 @@ import { Repository } from '@aws-cdk/aws-ecr'
 import { Construct, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core'
 import { Role } from '@aws-cdk/aws-iam'
 import { ServiceDeploymentPipeline } from '../constructs/service-deployment-pipeline'
+import { ServiceDeploymentStack } from './service-deployment-stack'
 
 interface ServiceSetupStackProps extends StackProps {
     serviceName: string
@@ -27,9 +28,20 @@ export class ServiceSetupStack extends Stack {
             removalPolicy: RemovalPolicy.DESTROY
         })
 
-        new ServiceDeploymentPipeline(this, 'DeploymentPipeline', {
+        const serviceDeploymentStack = new ServiceDeploymentStack(scope, `${props.serviceName}-service-stack`, {
             ...props,
             ecrRepository: ecrRepository,
+            containerPort: 8083,
+            environmentVars: {
+                PORT: '8083'
+            },
+            dnsName: props.serviceName
+        })
+
+        new ServiceDeploymentPipeline(this, 'DeploymentPipeline', {
+            ...props,
+            serviceStackName: serviceDeploymentStack.stackName,
+            ecrRepository: ecrRepository
         })
     }
 }

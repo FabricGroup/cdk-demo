@@ -5,6 +5,9 @@ import { LocalCacheMode, Project } from '@aws-cdk/aws-codebuild'
 import { CodePipelineSource } from '@aws-cdk/aws-codebuild/lib/codepipeline-source'
 import { Repository } from '@aws-cdk/aws-ecr'
 import { Cache } from '@aws-cdk/aws-codebuild/lib/cache'
+import { CDKSynthPipelineAction } from './cdk-pipeline-action'
+import { stackDeploymentStageOptions } from '../utils/stages'
+import { Role } from '@aws-cdk/aws-iam'
 
 export interface ServiceDeploymentPipelineProps {
     ecrRepository: Repository,
@@ -14,7 +17,8 @@ export interface ServiceDeploymentPipelineProps {
         branch: string
         owner: string
     }
-    serviceName: string
+    serviceStackName: string
+    deploymentRole: Role
 }
 
 export class ServiceDeploymentPipeline extends Construct {
@@ -24,16 +28,20 @@ export class ServiceDeploymentPipeline extends Construct {
         super(scope, id)
 
         this.pipeline = new Pipeline(this, id, {
-            pipelineName: `${props.serviceName}-pipeline`,
+            pipelineName: `${props.serviceStackName}-pipeline`,
             restartExecutionOnUpdate: true
         })
 
-        const sourceArtifact = this.addSourceStage(props)
+        const {sourceArtifact, cdkArtifact} = this.addSourceStage(props)
         this.addServiceBuildStage(props, sourceArtifact)
+        const cdkBuildArtifact = this.addCdkBuildStage(scope, props, cdkArtifact)
+        this.addDeploymentStage(cdkBuildArtifact, props.serviceStackName, props.deploymentRole)
+
     }
 
     private addSourceStage(props: ServiceDeploymentPipelineProps) {
         const sourceArtifact = new Artifact('serviceSource')
+        const cdkArtifact = new Artifact('cdkSource')
         const githubTokenName = props.serviceSource.githubTokenName
         this.pipeline.addStage({
             stageName: 'service-source',
@@ -44,15 +52,24 @@ export class ServiceDeploymentPipeline extends Construct {
                     oauthToken: SecretValue.secretsManager(githubTokenName),
                     output: sourceArtifact,
                     trigger: GitHubTrigger.WEBHOOK
+                }),
+                new GitHubSourceAction({
+                    repo: 'cdk-demo',
+                    owner: 'FabricGroup',
+                    branch: 'master2',
+                    actionName: 'github-cdk-source',
+                    oauthToken: SecretValue.secretsManager(githubTokenName),
+                    output: cdkArtifact,
+                    trigger: GitHubTrigger.WEBHOOK
                 })
             ]
         })
-        return sourceArtifact
+        return {sourceArtifact, cdkArtifact}
     }
 
     private addServiceBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
         const project = new Project(this, 'ServiceProject', {
-            projectName: `${props.serviceName}-codebuild-project`,
+            projectName: `${props.serviceStackName}-codebuild-project`,
             environment: {
                 //needed for docker
                 privileged: true
@@ -78,5 +95,18 @@ export class ServiceDeploymentPipeline extends Construct {
                 })
             ]
         })
+    }
+
+    private addCdkBuildStage(scope: Construct, props: ServiceDeploymentPipelineProps, cdkArtifact: Artifact): Artifact {
+        const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceStackName}-cdk`, cdkArtifact)
+        this.pipeline.addStage({
+            stageName: 'generate-stack-template',
+            actions: [cdkSynthAction.codeBuildAction]
+        })
+        return cdkSynthAction.buildOutputArtifact
+    }
+
+    private addDeploymentStage(inputArtifact: Artifact, stackName: string, deploymentRole: Role) {
+        this.pipeline.addStage(stackDeploymentStageOptions(stackName, inputArtifact, deploymentRole))
     }
 }
