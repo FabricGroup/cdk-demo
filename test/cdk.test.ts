@@ -1,8 +1,10 @@
 import { expect as expectCDK, haveResourceLike, ResourcePart } from '@aws-cdk/assert'
 import { InfraStack } from '../lib/stacks/infra-stack'
-import cdk = require('@aws-cdk/core')
 import { CdkSetupStack } from '../lib/stacks/cdk-setup-stack'
 import { ServiceSetupStack } from '../lib/stacks/service-setup-stack'
+import { Repository } from '@aws-cdk/aws-ecr'
+import { ServiceDeploymentStack } from '../lib/stacks/service-deployment-stack'
+import cdk = require('@aws-cdk/core')
 
 test('Should create infra stack', () => {
     const app = new cdk.App()
@@ -64,5 +66,30 @@ test('Service Repo should be created', () => {
             RepositoryName: 'test-service-repo'
         },
         DeletionPolicy: 'Delete'
+    }, ResourcePart.CompleteDefinition))
+})
+
+test('ServiceDeploymentStack should create fargate service', () => {
+    const app = new cdk.App()
+    const infraStack = new InfraStack(app, 'infra-stack')
+    const props = {
+        hostedZone: {
+            id: 'Z20QY3N3V946UQ',
+            name: 'dev.fabricgroup.com.au'
+        },
+        ecrRepository: new Repository(infraStack, 'ECRRepo'),
+        containerPort: 8083,
+        environmentVars: {
+            PORT: '8083'
+        },
+        dnsName: 'test-service'
+    }
+
+    const stack = new ServiceDeploymentStack(app, 'CdkDeployStack', props)
+
+    expectCDK(stack).to(haveResourceLike('AWS::ECS::Service', {
+        Properties: {
+            LaunchType: 'FARGATE'
+        }
     }, ResourcePart.CompleteDefinition))
 })
