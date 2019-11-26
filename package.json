@@ -10,7 +10,7 @@
     "precdk-synth": "rm -rf cdk.out",
     "cdk-synth": "yarn cdk synth",
     "cdk-deploy": "yarn cdk synth && cdk deploy",
-    "bootstrap": "cdk deploy infra-stack"
+    "bootstrap": "yarn cdk deploy infra-stack"
   },
   "license": "UNLICENSED",
   "devDependencies": {

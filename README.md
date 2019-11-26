@@ -1,31 +1,29 @@
 # Useful commands
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `cdk deploy` deploy this stack to your default AWS account/region
-- `cdk diff` compare deployed stack with current state
-- `cdk synth` emits the synthesized CloudFormation template
+- `yarn cdk-synth` emits the synthesized CloudFormation template
+- `yarn cdk-deploy` deploys given stack
+- `yarn bootstrap` deploys base infrastructure stack
 
 ## Agenda
 
 ### Container
 
+- bootstrap cdk deployment infrastructure
+  - deploy infra-stack
+  - self updating infrastructure with cdk-setup-stack
 - local running simple container
   - checkout goose repo `git clone git@github.com:FabricGroup/goose.git`
   - build container `make build`
   - run container `make start`
   - verify running container `curl localhost:8083/goo`
-  - health check is at `curl localhost:8083/heartbeat`
-- setup pipeline using cdk
-- deploy same using pipeline
+  - health check is at `curl localhost:8083/`
+- deploy using pipeline infrastructure
 - cdk deploy single instance to fargate
 - gitops: increase number of instances
-- gitops: add lb
 
 ### Post Demo
 
-- talk about current work
+- talk about what we do with this
 
 ### TODO
 - working code

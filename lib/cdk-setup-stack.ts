@@ -2,7 +2,6 @@ import { BaseStack } from './base-stack'
 import { Construct, StackProps } from '@aws-cdk/core'
 import { Role } from '@aws-cdk/aws-iam'
 import { CdkDeployPipeline } from './cdk-deploy-pipeline'
-import { CdkBuildPipeline } from './cdk-build-pipeline'
 import { ServiceSetupConstruct } from './service-setup-construct'
 
 interface CdkDeployStackProps extends StackProps {
@@ -13,7 +12,6 @@ interface CdkDeployStackProps extends StackProps {
         owner: string
         githubTokenName: string
         masterBranch: string
-        developmentBranch: string
     },
     serviceSource: {
         repo: string
@@ -28,14 +26,6 @@ export class CdkSetupStack extends BaseStack {
 
     constructor(scope: Construct, id: string, props: CdkDeployStackProps) {
         super(scope, id, props)
-
-        new CdkBuildPipeline(this, 'CdkBuildPipeline', {
-            pipelinePrefix: 'cdk-build',
-            cdkSource: {
-                ...props.cdkSource,
-                branch: props.cdkSource.developmentBranch
-            }
-        })
 
         new CdkDeployPipeline(this, 'CdkDeployPipeline', {
             pipelinePrefix: 'cdk-deployment',

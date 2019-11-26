@@ -23,8 +23,7 @@ const cdkSetupStack = new CdkSetupStack(app, 'cdk-deploy-stack', {
         repo: 'cdk-demo',
         githubTokenName: githubTokenName,
         owner: 'FabricGroup',
-        masterBranch: 'master2',
-        developmentBranch: 'development'
+        masterBranch: 'master2'
     },
     serviceSource: {
         repo: 'goose',
