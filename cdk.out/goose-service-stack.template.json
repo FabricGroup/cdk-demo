@@ -1,0 +1,1007 @@
+{
+  "Resources": {
+    "DemoCluster8CB095E3": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Resource"
+      }
+    },
+    "DemoClusterVpc3A3CB1B9": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/Resource"
+      }
+    },
+    "DemoClusterVpcPublicSubnet1Subnet41C4F948": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/18",
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1/Subnet"
+      }
+    },
+    "DemoClusterVpcPublicSubnet1RouteTable4C74B5E6": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1/RouteTable"
+      }
+    },
+    "DemoClusterVpcPublicSubnet1RouteTableAssociationFDC4147C": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPublicSubnet1RouteTable4C74B5E6"
+        },
+        "SubnetId": {
+          "Ref": "DemoClusterVpcPublicSubnet1Subnet41C4F948"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1/RouteTableAssociation"
+      }
+    },
+    "DemoClusterVpcPublicSubnet1DefaultRoute0C275612": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPublicSubnet1RouteTable4C74B5E6"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "DemoClusterVpcIGW1175AC55"
+        }
+      },
+      "DependsOn": [
+        "DemoClusterVpcVPCGWB0FFA441"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1/DefaultRoute"
+      }
+    },
+    "DemoClusterVpcPublicSubnet1EIPC428DF31": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1/EIP"
+      }
+    },
+    "DemoClusterVpcPublicSubnet1NATGateway5966A452": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "DemoClusterVpcPublicSubnet1EIPC428DF31",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "DemoClusterVpcPublicSubnet1Subnet41C4F948"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1/NATGateway"
+      }
+    },
+    "DemoClusterVpcPublicSubnet2Subnet1B7F6B11": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.64.0/18",
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2/Subnet"
+      }
+    },
+    "DemoClusterVpcPublicSubnet2RouteTable1665AC30": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2/RouteTable"
+      }
+    },
+    "DemoClusterVpcPublicSubnet2RouteTableAssociation193DB2B9": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPublicSubnet2RouteTable1665AC30"
+        },
+        "SubnetId": {
+          "Ref": "DemoClusterVpcPublicSubnet2Subnet1B7F6B11"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2/RouteTableAssociation"
+      }
+    },
+    "DemoClusterVpcPublicSubnet2DefaultRoute26D624D4": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPublicSubnet2RouteTable1665AC30"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "DemoClusterVpcIGW1175AC55"
+        }
+      },
+      "DependsOn": [
+        "DemoClusterVpcVPCGWB0FFA441"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2/DefaultRoute"
+      }
+    },
+    "DemoClusterVpcPublicSubnet2EIP8BEA5E1F": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2/EIP"
+      }
+    },
+    "DemoClusterVpcPublicSubnet2NATGatewayB311164D": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "DemoClusterVpcPublicSubnet2EIP8BEA5E1F",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "DemoClusterVpcPublicSubnet2Subnet1B7F6B11"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2/NATGateway"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet1SubnetEBC58CF5": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.128.0/18",
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1/Subnet"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet1RouteTable1EF74015": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1/RouteTable"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet1RouteTableAssociation48D01ABF": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPrivateSubnet1RouteTable1EF74015"
+        },
+        "SubnetId": {
+          "Ref": "DemoClusterVpcPrivateSubnet1SubnetEBC58CF5"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1/RouteTableAssociation"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet1DefaultRoute64E0B61C": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPrivateSubnet1RouteTable1EF74015"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "DemoClusterVpcPublicSubnet1NATGateway5966A452"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1/DefaultRoute"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet2Subnet735EB69E": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.192.0/18",
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2/Subnet"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet2RouteTable0AB0A004": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2/RouteTable"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet2RouteTableAssociationAD27BC02": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPrivateSubnet2RouteTable0AB0A004"
+        },
+        "SubnetId": {
+          "Ref": "DemoClusterVpcPrivateSubnet2Subnet735EB69E"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2/RouteTableAssociation"
+      }
+    },
+    "DemoClusterVpcPrivateSubnet2DefaultRouteD7EA299F": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "DemoClusterVpcPrivateSubnet2RouteTable0AB0A004"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "DemoClusterVpcPublicSubnet2NATGatewayB311164D"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2/DefaultRoute"
+      }
+    },
+    "DemoClusterVpcIGW1175AC55": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/DemoCluster/Vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/IGW"
+      }
+    },
+    "DemoClusterVpcVPCGWB0FFA441": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        },
+        "InternetGatewayId": {
+          "Ref": "DemoClusterVpcIGW1175AC55"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/DemoCluster/Vpc/VPCGW"
+      }
+    },
+    "FargateResourceLBE160E96D": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "FargateResourceLBSecurityGroup60AF5285",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Ref": "DemoClusterVpcPublicSubnet1Subnet41C4F948"
+          },
+          {
+            "Ref": "DemoClusterVpcPublicSubnet2Subnet1B7F6B11"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ],
+        "Type": "application"
+      },
+      "DependsOn": [
+        "DemoClusterVpcPublicSubnet1DefaultRoute0C275612",
+        "DemoClusterVpcPublicSubnet2DefaultRoute26D624D4"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/Resource"
+      }
+    },
+    "FargateResourceLBSecurityGroup60AF5285": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB gooseservicestackFargateResourceLB4383B579",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ],
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/SecurityGroup/Resource"
+      }
+    },
+    "FargateResourceLBSecurityGrouptogooseservicestackFargateResourceServiceSecurityGroup94343EB1808368F60ED4": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceLBSecurityGroup60AF5285",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceServiceSecurityGroupE371BDA5",
+            "GroupId"
+          ]
+        },
+        "FromPort": 8083,
+        "ToPort": 8083
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/SecurityGroup/to gooseservicestackFargateResourceServiceSecurityGroup94343EB1:8083"
+      }
+    },
+    "FargateResourceLBPublicListener7C7D344A": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "FargateResourceLBPublicListenerECSGroupAB2F6530"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "FargateResourceLBE160E96D"
+        },
+        "Port": 80,
+        "Protocol": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/PublicListener/Resource"
+      }
+    },
+    "FargateResourceLBPublicListenerECSGroupAB2F6530": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ],
+        "TargetType": "ip",
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/PublicListener/ECSGroup/Resource"
+      }
+    },
+    "FargateResourceDNS5F1DF003": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Name": "goose.dev.fabricgroup.com.au.",
+        "Type": "A",
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "FargateResourceLBE160E96D",
+              "DNSName"
+            ]
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "FargateResourceLBE160E96D",
+              "CanonicalHostedZoneID"
+            ]
+          }
+        },
+        "HostedZoneId": "Z20QY3N3V946UQ"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/DNS/Resource"
+      }
+    },
+    "FargateResourceTaskDefTaskRole7D24548C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/TaskRole/Resource"
+      }
+    },
+    "FargateResourceTaskDef35273293": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "PORT",
+                "Value": "8083"
+              }
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Select": [
+                      4,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputFnGetAttServiceSetupgooseEcrRepo46A32B11ArnC07FECB7"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Fn::Select": [
+                      3,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputFnGetAttServiceSetupgooseEcrRepo46A32B11ArnC07FECB7"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/",
+                  {
+                    "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputRefServiceSetupgooseEcrRepo46A32B11C0657594"
+                  },
+                  ":latest"
+                ]
+              ]
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "FargateResourceTaskDefwebLogGroupED5DCF5B"
+                },
+                "awslogs-stream-prefix": "FargateResource",
+                "awslogs-region": {
+                  "Ref": "AWS::Region"
+                }
+              }
+            },
+            "Name": "web",
+            "PortMappings": [
+              {
+                "ContainerPort": 8083,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateResourceTaskDefExecutionRoleC25C18C7",
+            "Arn"
+          ]
+        },
+        "Family": "gooseservicestackFargateResourceTaskDef7A2A3FE7",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateResourceTaskDefTaskRole7D24548C",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/Resource"
+      }
+    },
+    "FargateResourceTaskDefwebLogGroupED5DCF5B": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/web/LogGroup/Resource"
+      }
+    },
+    "FargateResourceTaskDefExecutionRoleC25C18C7": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/Resource"
+      }
+    },
+    "FargateResourceTaskDefExecutionRoleDefaultPolicyCDFEF453": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputFnGetAttServiceSetupgooseEcrRepo46A32B11ArnC07FECB7"
+              }
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "FargateResourceTaskDefwebLogGroupED5DCF5B",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "FargateResourceTaskDefExecutionRoleDefaultPolicyCDFEF453",
+        "Roles": [
+          {
+            "Ref": "FargateResourceTaskDefExecutionRoleC25C18C7"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "FargateResourceService4A0163FB": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "TaskDefinition": {
+          "Ref": "FargateResourceTaskDef35273293"
+        },
+        "Cluster": {
+          "Ref": "DemoCluster8CB095E3"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "web",
+            "ContainerPort": 8083,
+            "TargetGroupArn": {
+              "Ref": "FargateResourceLBPublicListenerECSGroupAB2F6530"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "FargateResourceServiceSecurityGroupE371BDA5",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Ref": "DemoClusterVpcPrivateSubnet1SubnetEBC58CF5"
+              },
+              {
+                "Ref": "DemoClusterVpcPrivateSubnet2Subnet735EB69E"
+              }
+            ]
+          }
+        },
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ]
+      },
+      "DependsOn": [
+        "FargateResourceLBPublicListenerECSGroupAB2F6530",
+        "FargateResourceLBPublicListener7C7D344A"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/Service/Service"
+      }
+    },
+    "FargateResourceServiceSecurityGroupE371BDA5": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "goose-service-stack/FargateResource/Service/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "meetup",
+            "Value": "true"
+          }
+        ],
+        "VpcId": {
+          "Ref": "DemoClusterVpc3A3CB1B9"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/Service/SecurityGroup/Resource"
+      }
+    },
+    "FargateResourceServiceSecurityGroupfromgooseservicestackFargateResourceLBSecurityGroupE918EAC78083CAE11561": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 8083,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceServiceSecurityGroupE371BDA5",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceLBSecurityGroup60AF5285",
+            "GroupId"
+          ]
+        },
+        "ToPort": 8083
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/Service/SecurityGroup/from gooseservicestackFargateResourceLBSecurityGroupE918EAC7:8083"
+      }
+    }
+  },
+  "Outputs": {
+    "FargateResourceLoadBalancerDNS282EE013": {
+      "Value": {
+        "Fn::GetAtt": [
+          "FargateResourceLBE160E96D",
+          "DNSName"
+        ]
+      }
+    },
+    "FargateResourceServiceURLFADB3707": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "http://",
+            {
+              "Ref": "FargateResourceDNS5F1DF003"
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
