@@ -2,14 +2,6 @@
   "Resources": {
     "DemoCluster8CB095E3": {
       "Type": "AWS::ECS::Cluster",
-      "Properties": {
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ]
-      },
       "Metadata": {
         "aws:cdk:path": "goose-service-stack/DemoCluster/Resource"
       }
@@ -22,10 +14,6 @@
         "EnableDnsSupport": true,
         "InstanceTenancy": "default",
         "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          },
           {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc"
@@ -54,10 +42,6 @@
         "MapPublicIpOnLaunch": true,
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1"
           },
@@ -82,10 +66,6 @@
           "Ref": "DemoClusterVpc3A3CB1B9"
         },
         "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          },
           {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1"
@@ -151,10 +131,6 @@
         },
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet1"
           }
@@ -182,10 +158,6 @@
         "MapPublicIpOnLaunch": true,
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2"
           },
@@ -210,10 +182,6 @@
           "Ref": "DemoClusterVpc3A3CB1B9"
         },
         "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          },
           {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2"
@@ -279,10 +247,6 @@
         },
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PublicSubnet2"
           }
@@ -310,10 +274,6 @@
         "MapPublicIpOnLaunch": false,
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1"
           },
@@ -338,10 +298,6 @@
           "Ref": "DemoClusterVpc3A3CB1B9"
         },
         "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          },
           {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet1"
@@ -399,10 +355,6 @@
         "MapPublicIpOnLaunch": false,
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2"
           },
@@ -427,10 +379,6 @@
           "Ref": "DemoClusterVpc3A3CB1B9"
         },
         "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          },
           {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc/PrivateSubnet2"
@@ -475,10 +423,6 @@
       "Properties": {
         "Tags": [
           {
-            "Key": "meetup",
-            "Value": "true"
-          },
-          {
             "Key": "Name",
             "Value": "goose-service-stack/DemoCluster/Vpc"
           }
@@ -522,12 +466,6 @@
             "Ref": "DemoClusterVpcPublicSubnet2Subnet1B7F6B11"
           }
         ],
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ],
         "Type": "application"
       },
       "DependsOn": [
@@ -549,12 +487,6 @@
             "FromPort": 80,
             "IpProtocol": "tcp",
             "ToPort": 80
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
           }
         ],
         "VpcId": {
@@ -615,12 +547,6 @@
       "Properties": {
         "Port": 80,
         "Protocol": "HTTP",
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ],
         "TargetType": "ip",
         "VpcId": {
           "Ref": "DemoClusterVpc3A3CB1B9"
@@ -669,13 +595,7 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "Metadata": {
         "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/TaskRole/Resource"
@@ -704,7 +624,7 @@
                         "Fn::Split": [
                           ":",
                           {
-                            "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputFnGetAttServiceSetupgooseEcrRepo46A32B11ArnC07FECB7"
+                            "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttgooseEcrRepoAC761593Arn52227F4B"
                           }
                         ]
                       }
@@ -718,7 +638,7 @@
                         "Fn::Split": [
                           ":",
                           {
-                            "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputFnGetAttServiceSetupgooseEcrRepo46A32B11ArnC07FECB7"
+                            "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttgooseEcrRepoAC761593Arn52227F4B"
                           }
                         ]
                       }
@@ -730,7 +650,7 @@
                   },
                   "/",
                   {
-                    "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputRefServiceSetupgooseEcrRepo46A32B11C0657594"
+                    "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputRefgooseEcrRepoAC761593B2D28539"
                   },
                   ":latest"
                 ]
@@ -770,12 +690,6 @@
         "RequiresCompatibilities": [
           "FARGATE"
         ],
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ],
         "TaskRoleArn": {
           "Fn::GetAtt": [
             "FargateResourceTaskDefTaskRole7D24548C",
@@ -809,13 +723,7 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "Metadata": {
         "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/Resource"
@@ -834,7 +742,7 @@
               ],
               "Effect": "Allow",
               "Resource": {
-                "Fn::ImportValue": "cdk-deploy-stack:ExportsOutputFnGetAttServiceSetupgooseEcrRepo46A32B11ArnC07FECB7"
+                "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttgooseEcrRepoAC761593Arn52227F4B"
               }
             },
             {
@@ -915,13 +823,7 @@
               }
             ]
           }
-        },
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "DependsOn": [
         "FargateResourceLBPublicListenerECSGroupAB2F6530",
@@ -940,12 +842,6 @@
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound traffic by default",
             "IpProtocol": "-1"
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "meetup",
-            "Value": "true"
           }
         ],
         "VpcId": {

@@ -8,6 +8,7 @@ import { CDKSynthPipelineAction } from './cdkPipelineAction'
 export interface CdkDeployPipelineProps {
     deploymentRole: Role;
     pipelinePrefix: string
+    serviceSetupStackName: string
     cdkSource: {
         repo: string
         branch: string
@@ -27,11 +28,20 @@ export class CdkDeployPipeline extends Construct {
             restartExecutionOnUpdate: true
         })
 
-        const cdkArtifact = new Artifact('cdkSource')
-        this.addStages(cdkArtifact, props)
+        this.addStages(props)
     }
 
-    protected addStages(cdkArtifact: Artifact, props: CdkDeployPipelineProps) {
+    private addStages(props: CdkDeployPipelineProps) {
+        const cdkArtifact = this.addSourceStage(props)
+        const cdkSynthArtifact = this.addSynthStage(props, cdkArtifact)
+
+        this.addDeploymentStages(cdkSynthArtifact, 'cdk-deploy-stack', props.deploymentRole)
+        this.addDeploymentStages(cdkSynthArtifact, props.serviceSetupStackName, props.deploymentRole)
+    }
+
+    private addSourceStage(props: CdkDeployPipelineProps): Artifact {
+        const cdkArtifact = new Artifact('cdkSource')
+
         this.pipeline.addStage({
             stageName: 'cdk-source',
             actions: [
@@ -44,15 +54,17 @@ export class CdkDeployPipeline extends Construct {
                 })
             ]
         })
+        return cdkArtifact
+    }
 
+    private addSynthStage(props: CdkDeployPipelineProps, cdkArtifact: Artifact): Artifact {
         const cdkSynthAction = new CDKSynthPipelineAction(this.scope, props.pipelinePrefix, cdkArtifact)
 
         this.pipeline.addStage({
             stageName: 'build',
             actions: [cdkSynthAction.codeBuildAction]
         })
-
-        this.addDeploymentStages(cdkSynthAction.buildOutputArtifact, 'cdk-deploy-stack', props.deploymentRole)
+        return cdkSynthAction.buildOutputArtifact
     }
 
     private addDeploymentStages(cdkBuildArtifact: Artifact, stackName: string, deploymentRole: IRole) {

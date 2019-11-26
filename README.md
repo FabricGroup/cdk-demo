@@ -8,26 +8,22 @@
 
 ### Container
 
-- bootstrap cdk deployment infrastructure
-  - deploy infra-stack
-  - self updating infrastructure with cdk-setup-stack
 - local running simple container
   - checkout goose repo `git clone git@github.com:FabricGroup/goose.git`
   - build container `make build`
   - run container `make start`
   - verify running container `curl localhost:8083/goo`
   - health check is at `curl localhost:8083/`
-- deploy using pipeline infrastructure
+- bootstrap cdk deployment infrastructure
+  - deploy infra-stack
+  - self updating infrastructure with cdk-setup-stack
+- deploy 
 - cdk deploy single instance to fargate
 - gitops: increase number of instances
 
 ### Post Demo
-
 - talk about what we do with this
-
-### TODO
-- working code
-- sensible git commits
-- architecture diagram
-- intro slides
-- current work manifest and diagram
+- patterns for distributing as libraries at an organization level
+- multi-account deployment pipelines
+- embedding security practices
+- what is happening in this space?
