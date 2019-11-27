@@ -38,7 +38,7 @@ new CdkSetupStack(app, 'cdk-deploy-stack', {
         repo: 'cdk-demo',
         githubTokenName: githubTokenName,
         owner: 'FabricGroup',
-        branch: 'master2'
+        branch: 'master'
     },
     deploymentRole: infraStack.deploymentRole,
     serviceSetupStackName: serviceSetupStack.stackName
