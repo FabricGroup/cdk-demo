@@ -33,7 +33,8 @@ export class ServiceSetupStack extends Stack {
             ecrRepository: ecrRepository,
             containerPort: 8083,
             environmentVars: {
-                PORT: '8083'
+                PORT: '8083',
+                SERVICE_NAME: props.serviceName
             },
             dnsName: props.serviceName
         })
