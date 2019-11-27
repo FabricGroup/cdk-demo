@@ -74,6 +74,17 @@
           "Arn"
         ]
       }
+    },
+    "ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0": {
+      "Value": {
+        "Fn::GetAtt": [
+          "CdkDeploymentRoleEB4E74AF",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": "infra-stack:ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0"
+      }
     }
   }
 }

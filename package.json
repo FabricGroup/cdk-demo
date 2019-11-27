@@ -25,6 +25,9 @@
     "typescript": "~3.6.2"
   },
   "dependencies": {
+    "@aws-cdk/aws-cloudformation": "1.17.1",
+    "@aws-cdk/aws-codepipeline": "1.17.1",
+    "@aws-cdk/aws-codepipeline-actions": "1.17.1",
     "@aws-cdk/aws-iam": "1.17.1",
     "@aws-cdk/core": "1.17.1",
     "source-map-support": "^0.5.9"
