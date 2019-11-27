@@ -57,7 +57,7 @@ export class ServiceDeploymentPipeline extends Construct {
                 new GitHubSourceAction({
                     repo: 'cdk-demo',
                     owner: 'FabricGroup',
-                    branch: 'master2',
+                    branch: 'master',
                     actionName: 'github-cdk-source',
                     oauthToken: SecretValue.secretsManager(githubTokenName),
                     output: cdkArtifact,
