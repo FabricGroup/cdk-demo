@@ -6,12 +6,12 @@ import { IRepository } from '@aws-cdk/aws-ecr'
 import { HostedZone } from '@aws-cdk/aws-route53'
 
 export interface ServiceDeploymentStackProps extends StackProps {
-    ecrRepository: IRepository;
-    containerPort: number,
-    environmentVars: { [key: string]: string },
+    ecrRepository: IRepository
+    containerPort: number
+    environmentVars: { [key: string]: string }
     dnsName: string
     hostedZone: {
-        id: string,
+        id: string
         name: string
     }
 }
