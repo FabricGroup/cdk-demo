@@ -29,7 +29,7 @@ export class ServiceDeploymentPipeline extends Construct {
         super(scope, id)
 
         this.pipeline = new Pipeline(this, id, {
-            pipelineName: `${props.serviceStackName}-pipeline`,
+            pipelineName: `${props.serviceName}-pipeline`,
             restartExecutionOnUpdate: true
         })
 
@@ -70,7 +70,7 @@ export class ServiceDeploymentPipeline extends Construct {
 
     private addServiceBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
         const project = new Project(this, 'ServiceProject', {
-            projectName: `${props.serviceStackName}-codebuild-project`,
+            projectName: `${props.serviceName}-codebuild-project`,
             environment: {
                 //needed for docker
                 privileged: true
