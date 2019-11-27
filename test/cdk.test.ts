@@ -29,7 +29,7 @@ test('CDK setup stack should create pipeline', () => {
             branch: 'master'
         },
         deploymentRole: infraStack.deploymentRole,
-        serviceSetupStackName: 'awesome-stack'
+        serviceSetupStackNames: ['awesome-stack']
     }
 
     const stack = new CdkSetupStack(app, 'CdkDeployStack', props)

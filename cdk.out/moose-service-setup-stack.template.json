@@ -1,6 +1,17 @@
 {
   "Resources": {
-    "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA": {
+    "EcrRepository4D7B3EE1": {
+      "Type": "AWS::ECR::Repository",
+      "Properties": {
+        "RepositoryName": "moose-repo"
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/EcrRepository/Resource"
+      }
+    },
+    "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03": {
       "Type": "AWS::KMS::Key",
       "Properties": {
         "KeyPolicy": {
@@ -54,7 +65,41 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelineRoleAFD23263",
+                    "DeploymentPipelineRole9B41F310",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "DeploymentPipelineServiceProjectRole75179429",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "DeploymentPipelineServiceProjectRole75179429",
                     "Arn"
                   ]
                 }
@@ -73,7 +118,7 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
-                    "cdkdeployCdkSynthProjectRole19E3D5EC",
+                    "moosecdkCdkSynthProjectRoleD1FC76A7",
                     "Arn"
                   ]
                 }
@@ -91,7 +136,7 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
-                    "cdkdeployCdkSynthProjectRole19E3D5EC",
+                    "moosecdkCdkSynthProjectRoleD1FC76A7",
                     "Arn"
                   ]
                 }
@@ -107,39 +152,7 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleFA737034",
-                    "Arn"
-                  ]
-                }
-              },
-              "Resource": "*"
-            },
-            {
-              "Action": [
-                "kms:Decrypt",
-                "kms:DescribeKey"
-              ],
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRole3EC037B9",
-                    "Arn"
-                  ]
-                }
-              },
-              "Resource": "*"
-            },
-            {
-              "Action": [
-                "kms:Decrypt",
-                "kms:DescribeKey"
-              ],
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRole4C231AFA",
+                    "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRole825AF18B",
                     "Arn"
                   ]
                 }
@@ -148,21 +161,15 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/ArtifactsBucketEncryptionKey/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/ArtifactsBucketEncryptionKey/Resource"
       }
     },
-    "CdkDeployPipelineArtifactsBucket88E91FFE": {
+    "DeploymentPipelineArtifactsBucketA873FDFC": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "BucketEncryption": {
@@ -171,7 +178,7 @@
               "ServerSideEncryptionByDefault": {
                 "KMSMasterKeyID": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+                    "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
                     "Arn"
                   ]
                 },
@@ -179,27 +186,21 @@
               }
             }
           ]
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/ArtifactsBucket/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/ArtifactsBucket/Resource"
       }
     },
-    "CdkDeployPipelineArtifactsBucketEncryptionKeyAlias59CD8805": {
+    "DeploymentPipelineArtifactsBucketEncryptionKeyAlias1F16D7CE": {
       "Type": "AWS::KMS::Alias",
       "Properties": {
-        "AliasName": "alias/codepipeline-cdkdeploystackcdkdeploypipelinef14b93dd",
+        "AliasName": "alias/codepipeline-mooseservicesetupstackdeploymentpipelinea2e73c15",
         "TargetKeyId": {
           "Fn::GetAtt": [
-            "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+            "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
             "Arn"
           ]
         }
@@ -207,10 +208,10 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/ArtifactsBucketEncryptionKeyAlias/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/ArtifactsBucketEncryptionKeyAlias/Resource"
       }
     },
-    "CdkDeployPipelineRoleAFD23263": {
+    "DeploymentPipelineRole9B41F310": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -224,19 +225,13 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/Role/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/Role/Resource"
       }
     },
-    "CdkDeployPipelineRoleDefaultPolicy14ABB801": {
+    "DeploymentPipelineRoleDefaultPolicyC21DE86D": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -254,7 +249,7 @@
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelineArtifactsBucket88E91FFE",
+                    "DeploymentPipelineArtifactsBucketA873FDFC",
                     "Arn"
                   ]
                 },
@@ -264,7 +259,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "CdkDeployPipelineArtifactsBucket88E91FFE",
+                          "DeploymentPipelineArtifactsBucketA873FDFC",
                           "Arn"
                         ]
                       },
@@ -285,7 +280,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+                  "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
                   "Arn"
                 ]
               }
@@ -295,7 +290,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelinebuildCodePipelineActionRoleC3C5AF4E",
+                  "DeploymentPipelinebuildCodePipelineActionRole7422702E",
                   "Arn"
                 ]
               }
@@ -305,7 +300,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleFA737034",
+                  "DeploymentPipelinegeneratestacktemplatebuildCodePipelineActionRoleA8717077",
                   "Arn"
                 ]
               }
@@ -315,7 +310,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelinecdkdeploystackdeployexecutechangesetCodePipelineActionRoleED103021",
+                  "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRole825AF18B",
                   "Arn"
                 ]
               }
@@ -325,37 +320,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRole3EC037B9",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "CdkDeployPipelinegooseservicesetupstackdeployexecutechangesetCodePipelineActionRole21CD320A",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRole4C231AFA",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "CdkDeployPipelinemooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleE23A6B62",
+                  "DeploymentPipelinemooseservicestackdeployexecutechangesetCodePipelineActionRole0C7372E5",
                   "Arn"
                 ]
               }
@@ -363,29 +328,51 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "CdkDeployPipelineRoleDefaultPolicy14ABB801",
+        "PolicyName": "DeploymentPipelineRoleDefaultPolicyC21DE86D",
         "Roles": [
           {
-            "Ref": "CdkDeployPipelineRoleAFD23263"
+            "Ref": "DeploymentPipelineRole9B41F310"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/Role/DefaultPolicy/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/Role/DefaultPolicy/Resource"
       }
     },
-    "CdkDeployPipeline1FD82BE5": {
+    "DeploymentPipeline7DBB1770": {
       "Type": "AWS::CodePipeline::Pipeline",
       "Properties": {
         "RoleArn": {
           "Fn::GetAtt": [
-            "CdkDeployPipelineRoleAFD23263",
+            "DeploymentPipelineRole9B41F310",
             "Arn"
           ]
         },
         "Stages": [
           {
             "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Source",
+                  "Owner": "ThirdParty",
+                  "Provider": "GitHub",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "Owner": "FabricGroup",
+                  "Repo": "goose",
+                  "Branch": "master",
+                  "OAuthToken": "{{resolve:secretsmanager:cdk-demo/github/goose-token:SecretString:::}}",
+                  "PollForSourceChanges": false
+                },
+                "Name": "service-source",
+                "OutputArtifacts": [
+                  {
+                    "Name": "serviceSource"
+                  }
+                ],
+                "RunOrder": 1
+              },
               {
                 "ActionTypeId": {
                   "Category": "Source",
@@ -409,7 +396,7 @@
                 "RunOrder": 1
               }
             ],
-            "Name": "cdk-source"
+            "Name": "service-source"
           },
           {
             "Actions": [
@@ -422,23 +409,18 @@
                 },
                 "Configuration": {
                   "ProjectName": {
-                    "Ref": "cdkdeployCdkSynthProject0CD49AB6"
+                    "Ref": "DeploymentPipelineServiceProject0FDCDB86"
                   }
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "cdkSource"
+                    "Name": "serviceSource"
                   }
                 ],
                 "Name": "build",
-                "OutputArtifacts": [
-                  {
-                    "Name": "Artifact_build_build"
-                  }
-                ],
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelinebuildCodePipelineActionRoleC3C5AF4E",
+                    "DeploymentPipelinebuildCodePipelineActionRole7422702E",
                     "Arn"
                   ]
                 },
@@ -451,58 +433,37 @@
             "Actions": [
               {
                 "ActionTypeId": {
-                  "Category": "Deploy",
+                  "Category": "Build",
                   "Owner": "AWS",
-                  "Provider": "CloudFormation",
+                  "Provider": "CodeBuild",
                   "Version": "1"
                 },
                 "Configuration": {
-                  "StackName": "cdk-deploy-stack",
-                  "Capabilities": "CAPABILITY_NAMED_IAM",
-                  "RoleArn": {
-                    "Fn::ImportValue": "infra-stack:ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0"
-                  },
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "ChangeSetName": "cdk-deploy-stack-changeset",
-                  "TemplatePath": "Artifact_build_build::cdk-deploy-stack.template.json"
+                  "ProjectName": {
+                    "Ref": "moosecdkCdkSynthProjectBADFA7C9"
+                  }
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_build_build"
+                    "Name": "cdkSource"
                   }
                 ],
-                "Name": "create-changeset",
+                "Name": "build",
+                "OutputArtifacts": [
+                  {
+                    "Name": "Artifact_generate-stack-template_build"
+                  }
+                ],
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleFA737034",
+                    "DeploymentPipelinegeneratestacktemplatebuildCodePipelineActionRoleA8717077",
                     "Arn"
                   ]
                 },
                 "RunOrder": 1
-              },
-              {
-                "ActionTypeId": {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1"
-                },
-                "Configuration": {
-                  "StackName": "cdk-deploy-stack",
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "cdk-deploy-stack-changeset"
-                },
-                "Name": "execute-changeset",
-                "RoleArn": {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelinecdkdeploystackdeployexecutechangesetCodePipelineActionRoleED103021",
-                    "Arn"
-                  ]
-                },
-                "RunOrder": 2
               }
             ],
-            "Name": "cdk-deploy-stack-deploy"
+            "Name": "generate-stack-template"
           },
           {
             "Actions": [
@@ -514,24 +475,24 @@
                   "Version": "1"
                 },
                 "Configuration": {
-                  "StackName": "goose-service-setup-stack",
+                  "StackName": "moose-service-stack",
                   "Capabilities": "CAPABILITY_NAMED_IAM",
                   "RoleArn": {
                     "Fn::ImportValue": "infra-stack:ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0"
                   },
                   "ActionMode": "CHANGE_SET_REPLACE",
-                  "ChangeSetName": "goose-service-setup-stack-changeset",
-                  "TemplatePath": "Artifact_build_build::goose-service-setup-stack.template.json"
+                  "ChangeSetName": "moose-service-stack-changeset",
+                  "TemplatePath": "Artifact_generate-stack-template_build::moose-service-stack.template.json"
                 },
                 "InputArtifacts": [
                   {
-                    "Name": "Artifact_build_build"
+                    "Name": "Artifact_generate-stack-template_build"
                   }
                 ],
                 "Name": "create-changeset",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRole3EC037B9",
+                    "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRole825AF18B",
                     "Arn"
                   ]
                 },
@@ -545,113 +506,74 @@
                   "Version": "1"
                 },
                 "Configuration": {
-                  "StackName": "goose-service-setup-stack",
+                  "StackName": "moose-service-stack",
                   "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "goose-service-setup-stack-changeset"
+                  "ChangeSetName": "moose-service-stack-changeset"
                 },
                 "Name": "execute-changeset",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelinegooseservicesetupstackdeployexecutechangesetCodePipelineActionRole21CD320A",
+                    "DeploymentPipelinemooseservicestackdeployexecutechangesetCodePipelineActionRole0C7372E5",
                     "Arn"
                   ]
                 },
                 "RunOrder": 2
               }
             ],
-            "Name": "goose-service-setup-stack-deploy"
-          },
-          {
-            "Actions": [
-              {
-                "ActionTypeId": {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1"
-                },
-                "Configuration": {
-                  "StackName": "moose-service-setup-stack",
-                  "Capabilities": "CAPABILITY_NAMED_IAM",
-                  "RoleArn": {
-                    "Fn::ImportValue": "infra-stack:ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0"
-                  },
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "ChangeSetName": "moose-service-setup-stack-changeset",
-                  "TemplatePath": "Artifact_build_build::moose-service-setup-stack.template.json"
-                },
-                "InputArtifacts": [
-                  {
-                    "Name": "Artifact_build_build"
-                  }
-                ],
-                "Name": "create-changeset",
-                "RoleArn": {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRole4C231AFA",
-                    "Arn"
-                  ]
-                },
-                "RunOrder": 1
-              },
-              {
-                "ActionTypeId": {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1"
-                },
-                "Configuration": {
-                  "StackName": "moose-service-setup-stack",
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "moose-service-setup-stack-changeset"
-                },
-                "Name": "execute-changeset",
-                "RoleArn": {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelinemooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleE23A6B62",
-                    "Arn"
-                  ]
-                },
-                "RunOrder": 2
-              }
-            ],
-            "Name": "moose-service-setup-stack-deploy"
+            "Name": "moose-service-stack-deploy"
           }
         ],
         "ArtifactStore": {
           "EncryptionKey": {
             "Id": {
               "Fn::GetAtt": [
-                "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+                "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
                 "Arn"
               ]
             },
             "Type": "KMS"
           },
           "Location": {
-            "Ref": "CdkDeployPipelineArtifactsBucket88E91FFE"
+            "Ref": "DeploymentPipelineArtifactsBucketA873FDFC"
           },
           "Type": "S3"
         },
-        "Name": "cdk-deployment-pipeline",
-        "RestartExecutionOnUpdate": true,
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        "Name": "moose-pipeline",
+        "RestartExecutionOnUpdate": true
       },
       "DependsOn": [
-        "CdkDeployPipelineRoleDefaultPolicy14ABB801",
-        "CdkDeployPipelineRoleAFD23263"
+        "DeploymentPipelineRoleDefaultPolicyC21DE86D",
+        "DeploymentPipelineRole9B41F310"
       ],
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/Resource"
       }
     },
-    "CdkDeployPipelinecdksourcegithubcdksourceWebhookResource19DCBFE3": {
+    "DeploymentPipelineservicesourceWebhookResource83FE4114": {
+      "Type": "AWS::CodePipeline::Webhook",
+      "Properties": {
+        "Authentication": "GITHUB_HMAC",
+        "AuthenticationConfiguration": {
+          "SecretToken": "{{resolve:secretsmanager:cdk-demo/github/goose-token:SecretString:::}}"
+        },
+        "Filters": [
+          {
+            "JsonPath": "$.ref",
+            "MatchEquals": "refs/heads/{Branch}"
+          }
+        ],
+        "TargetAction": "service-source",
+        "TargetPipeline": {
+          "Ref": "DeploymentPipeline7DBB1770"
+        },
+        "TargetPipelineVersion": 1,
+        "RegisterWithThirdParty": true
+      },
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/service-source/service-source/WebhookResource"
+      }
+    },
+    "DeploymentPipelineservicesourcegithubcdksourceWebhookResource20E22426": {
       "Type": "AWS::CodePipeline::Webhook",
       "Properties": {
         "Authentication": "GITHUB_HMAC",
@@ -666,16 +588,16 @@
         ],
         "TargetAction": "github-cdk-source",
         "TargetPipeline": {
-          "Ref": "CdkDeployPipeline1FD82BE5"
+          "Ref": "DeploymentPipeline7DBB1770"
         },
         "TargetPipelineVersion": 1,
         "RegisterWithThirdParty": true
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/cdk-source/github-cdk-source/WebhookResource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/service-source/github-cdk-source/WebhookResource"
       }
     },
-    "CdkDeployPipelinebuildCodePipelineActionRoleC3C5AF4E": {
+    "DeploymentPipelinebuildCodePipelineActionRole7422702E": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -704,19 +626,13 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/build/build/CodePipelineActionRole/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/build/build/CodePipelineActionRole/Resource"
       }
     },
-    "CdkDeployPipelinebuildCodePipelineActionRoleDefaultPolicyCE183C94": {
+    "DeploymentPipelinebuildCodePipelineActionRoleDefaultPolicyE4578B51": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -730,7 +646,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "cdkdeployCdkSynthProject0CD49AB6",
+                  "DeploymentPipelineServiceProject0FDCDB86",
                   "Arn"
                 ]
               }
@@ -738,18 +654,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "CdkDeployPipelinebuildCodePipelineActionRoleDefaultPolicyCE183C94",
+        "PolicyName": "DeploymentPipelinebuildCodePipelineActionRoleDefaultPolicyE4578B51",
         "Roles": [
           {
-            "Ref": "CdkDeployPipelinebuildCodePipelineActionRoleC3C5AF4E"
+            "Ref": "DeploymentPipelinebuildCodePipelineActionRole7422702E"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/build/build/CodePipelineActionRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/build/build/CodePipelineActionRole/DefaultPolicy/Resource"
       }
     },
-    "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleFA737034": {
+    "DeploymentPipelinegeneratestacktemplatebuildCodePipelineActionRoleA8717077": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -778,19 +694,81 @@
             }
           ],
           "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/generate-stack-template/build/CodePipelineActionRole/Resource"
+      }
+    },
+    "DeploymentPipelinegeneratestacktemplatebuildCodePipelineActionRoleDefaultPolicy80913D38": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "moosecdkCdkSynthProjectBADFA7C9",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
         },
-        "Tags": [
+        "PolicyName": "DeploymentPipelinegeneratestacktemplatebuildCodePipelineActionRoleDefaultPolicy80913D38",
+        "Roles": [
           {
-            "Key": "cdk-demo",
-            "Value": "true"
+            "Ref": "DeploymentPipelinegeneratestacktemplatebuildCodePipelineActionRoleA8717077"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/cdk-deploy-stack-deploy/create-changeset/CodePipelineActionRole/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/generate-stack-template/build/CodePipelineActionRole/DefaultPolicy/Resource"
       }
     },
-    "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleDefaultPolicy09D1EB93": {
+    "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRole825AF18B": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/moose-service-stack-deploy/create-changeset/CodePipelineActionRole/Resource"
+      }
+    },
+    "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRoleDefaultPolicyB1308A46": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -812,7 +790,7 @@
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelineArtifactsBucket88E91FFE",
+                    "DeploymentPipelineArtifactsBucketA873FDFC",
                     "Arn"
                   ]
                 },
@@ -822,7 +800,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "CdkDeployPipelineArtifactsBucket88E91FFE",
+                          "DeploymentPipelineArtifactsBucketA873FDFC",
                           "Arn"
                         ]
                       },
@@ -840,7 +818,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+                  "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
                   "Arn"
                 ]
               }
@@ -854,7 +832,7 @@
               ],
               "Condition": {
                 "StringEqualsIfExists": {
-                  "cloudformation:ChangeSetName": "cdk-deploy-stack-changeset"
+                  "cloudformation:ChangeSetName": "moose-service-stack-changeset"
                 }
               },
               "Effect": "Allow",
@@ -874,7 +852,7 @@
                     {
                       "Ref": "AWS::AccountId"
                     },
-                    ":stack/cdk-deploy-stack/*"
+                    ":stack/moose-service-stack/*"
                   ]
                 ]
               }
@@ -882,18 +860,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleDefaultPolicy09D1EB93",
+        "PolicyName": "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRoleDefaultPolicyB1308A46",
         "Roles": [
           {
-            "Ref": "CdkDeployPipelinecdkdeploystackdeploycreatechangesetCodePipelineActionRoleFA737034"
+            "Ref": "DeploymentPipelinemooseservicestackdeploycreatechangesetCodePipelineActionRole825AF18B"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/cdk-deploy-stack-deploy/create-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/moose-service-stack-deploy/create-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
       }
     },
-    "CdkDeployPipelinecdkdeploystackdeployexecutechangesetCodePipelineActionRoleED103021": {
+    "DeploymentPipelinemooseservicestackdeployexecutechangesetCodePipelineActionRole0C7372E5": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -922,19 +900,13 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/cdk-deploy-stack-deploy/execute-changeset/CodePipelineActionRole/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/moose-service-stack-deploy/execute-changeset/CodePipelineActionRole/Resource"
       }
     },
-    "CdkDeployPipelinecdkdeploystackdeployexecutechangesetCodePipelineActionRoleDefaultPolicy6FA2C6B8": {
+    "DeploymentPipelinemooseservicestackdeployexecutechangesetCodePipelineActionRoleDefaultPolicyDD28CFD1": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -947,7 +919,7 @@
               ],
               "Condition": {
                 "StringEqualsIfExists": {
-                  "cloudformation:ChangeSetName": "cdk-deploy-stack-changeset"
+                  "cloudformation:ChangeSetName": "moose-service-stack-changeset"
                 }
               },
               "Effect": "Allow",
@@ -967,7 +939,7 @@
                     {
                       "Ref": "AWS::AccountId"
                     },
-                    ":stack/cdk-deploy-stack/*"
+                    ":stack/moose-service-stack/*"
                   ]
                 ]
               }
@@ -975,492 +947,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "CdkDeployPipelinecdkdeploystackdeployexecutechangesetCodePipelineActionRoleDefaultPolicy6FA2C6B8",
+        "PolicyName": "DeploymentPipelinemooseservicestackdeployexecutechangesetCodePipelineActionRoleDefaultPolicyDD28CFD1",
         "Roles": [
           {
-            "Ref": "CdkDeployPipelinecdkdeploystackdeployexecutechangesetCodePipelineActionRoleED103021"
+            "Ref": "DeploymentPipelinemooseservicestackdeployexecutechangesetCodePipelineActionRole0C7372E5"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/cdk-deploy-stack-deploy/execute-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/DeploymentPipeline/moose-service-stack-deploy/execute-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
       }
     },
-    "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRole3EC037B9": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":root"
-                    ]
-                  ]
-                }
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/goose-service-setup-stack-deploy/create-changeset/CodePipelineActionRole/Resource"
-      }
-    },
-    "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRoleDefaultPolicy986A43E8": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "iam:PassRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::ImportValue": "infra-stack:ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0"
-              }
-            },
-            {
-              "Action": [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*"
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelineArtifactsBucket88E91FFE",
-                    "Arn"
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "CdkDeployPipelineArtifactsBucket88E91FFE",
-                          "Arn"
-                        ]
-                      },
-                      "/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Action": [
-                "kms:Decrypt",
-                "kms:DescribeKey"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "cloudformation:CreateChangeSet",
-                "cloudformation:DeleteChangeSet",
-                "cloudformation:DescribeChangeSet",
-                "cloudformation:DescribeStacks"
-              ],
-              "Condition": {
-                "StringEqualsIfExists": {
-                  "cloudformation:ChangeSetName": "goose-service-setup-stack-changeset"
-                }
-              },
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":cloudformation:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":stack/goose-service-setup-stack/*"
-                  ]
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRoleDefaultPolicy986A43E8",
-        "Roles": [
-          {
-            "Ref": "CdkDeployPipelinegooseservicesetupstackdeploycreatechangesetCodePipelineActionRole3EC037B9"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/goose-service-setup-stack-deploy/create-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
-      }
-    },
-    "CdkDeployPipelinegooseservicesetupstackdeployexecutechangesetCodePipelineActionRole21CD320A": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":root"
-                    ]
-                  ]
-                }
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/goose-service-setup-stack-deploy/execute-changeset/CodePipelineActionRole/Resource"
-      }
-    },
-    "CdkDeployPipelinegooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleDefaultPolicyDBC401FA": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "cloudformation:DescribeChangeSet",
-                "cloudformation:DescribeStacks",
-                "cloudformation:ExecuteChangeSet"
-              ],
-              "Condition": {
-                "StringEqualsIfExists": {
-                  "cloudformation:ChangeSetName": "goose-service-setup-stack-changeset"
-                }
-              },
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":cloudformation:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":stack/goose-service-setup-stack/*"
-                  ]
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "CdkDeployPipelinegooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleDefaultPolicyDBC401FA",
-        "Roles": [
-          {
-            "Ref": "CdkDeployPipelinegooseservicesetupstackdeployexecutechangesetCodePipelineActionRole21CD320A"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/goose-service-setup-stack-deploy/execute-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
-      }
-    },
-    "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRole4C231AFA": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":root"
-                    ]
-                  ]
-                }
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/moose-service-setup-stack-deploy/create-changeset/CodePipelineActionRole/Resource"
-      }
-    },
-    "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRoleDefaultPolicy59C8B1E0": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "iam:PassRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::ImportValue": "infra-stack:ExportsOutputFnGetAttCdkDeploymentRoleEB4E74AFArnACEBBAC0"
-              }
-            },
-            {
-              "Action": [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*"
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "CdkDeployPipelineArtifactsBucket88E91FFE",
-                    "Arn"
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "CdkDeployPipelineArtifactsBucket88E91FFE",
-                          "Arn"
-                        ]
-                      },
-                      "/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Action": [
-                "kms:Decrypt",
-                "kms:DescribeKey"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "cloudformation:CreateChangeSet",
-                "cloudformation:DeleteChangeSet",
-                "cloudformation:DescribeChangeSet",
-                "cloudformation:DescribeStacks"
-              ],
-              "Condition": {
-                "StringEqualsIfExists": {
-                  "cloudformation:ChangeSetName": "moose-service-setup-stack-changeset"
-                }
-              },
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":cloudformation:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":stack/moose-service-setup-stack/*"
-                  ]
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRoleDefaultPolicy59C8B1E0",
-        "Roles": [
-          {
-            "Ref": "CdkDeployPipelinemooseservicesetupstackdeploycreatechangesetCodePipelineActionRole4C231AFA"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/moose-service-setup-stack-deploy/create-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
-      }
-    },
-    "CdkDeployPipelinemooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleE23A6B62": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":root"
-                    ]
-                  ]
-                }
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/moose-service-setup-stack-deploy/execute-changeset/CodePipelineActionRole/Resource"
-      }
-    },
-    "CdkDeployPipelinemooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleDefaultPolicy096993CF": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "cloudformation:DescribeChangeSet",
-                "cloudformation:DescribeStacks",
-                "cloudformation:ExecuteChangeSet"
-              ],
-              "Condition": {
-                "StringEqualsIfExists": {
-                  "cloudformation:ChangeSetName": "moose-service-setup-stack-changeset"
-                }
-              },
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":cloudformation:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":stack/moose-service-setup-stack/*"
-                  ]
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "CdkDeployPipelinemooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleDefaultPolicy096993CF",
-        "Roles": [
-          {
-            "Ref": "CdkDeployPipelinemooseservicesetupstackdeployexecutechangesetCodePipelineActionRoleE23A6B62"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/CdkDeployPipeline/Pipeline/moose-service-setup-stack-deploy/execute-changeset/CodePipelineActionRole/DefaultPolicy/Resource"
-      }
-    },
-    "cdkdeployCdkSynthProjectRole19E3D5EC": {
+    "DeploymentPipelineServiceProjectRole75179429": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -1474,19 +972,13 @@
             }
           ],
           "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        }
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/cdkdeployCdkSynthProject/Role/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/ServiceProject/Role/Resource"
       }
     },
-    "cdkdeployCdkSynthProjectRoleDefaultPolicyFEC4A298": {
+    "DeploymentPipelineServiceProjectRoleDefaultPolicy5A9BEB9A": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -1517,7 +1009,7 @@
                       },
                       ":log-group:/aws/codebuild/",
                       {
-                        "Ref": "cdkdeployCdkSynthProject0CD49AB6"
+                        "Ref": "DeploymentPipelineServiceProject0FDCDB86"
                       }
                     ]
                   ]
@@ -1540,7 +1032,257 @@
                       },
                       ":log-group:/aws/codebuild/",
                       {
-                        "Ref": "cdkdeployCdkSynthProject0CD49AB6"
+                        "Ref": "DeploymentPipelineServiceProject0FDCDB86"
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "EcrRepository4D7B3EE1",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ecr:PutImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "EcrRepository4D7B3EE1",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "DeploymentPipelineArtifactsBucketA873FDFC",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "DeploymentPipelineArtifactsBucketA873FDFC",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "DeploymentPipelineServiceProjectRoleDefaultPolicy5A9BEB9A",
+        "Roles": [
+          {
+            "Ref": "DeploymentPipelineServiceProjectRole75179429"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/ServiceProject/Role/DefaultPolicy/Resource"
+      }
+    },
+    "DeploymentPipelineServiceProject0FDCDB86": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "EnvironmentVariables": [
+            {
+              "Name": "IMAGE_REPO_NAME",
+              "Type": "PLAINTEXT",
+              "Value": {
+                "Ref": "EcrRepository4D7B3EE1"
+              }
+            },
+            {
+              "Name": "AWS_ACCOUNT_ID",
+              "Type": "PLAINTEXT",
+              "Value": {
+                "Fn::Sub": "${AWS::AccountId}"
+              }
+            },
+            {
+              "Name": "AWS_DEFAULT_REGION",
+              "Type": "PLAINTEXT",
+              "Value": {
+                "Fn::Sub": "${AWS::Region}"
+              }
+            }
+          ],
+          "Image": "aws/codebuild/standard:1.0",
+          "PrivilegedMode": true,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "DeploymentPipelineServiceProjectRole75179429",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "Type": "CODEPIPELINE"
+        },
+        "Cache": {
+          "Modes": [
+            "LOCAL_DOCKER_LAYER_CACHE"
+          ],
+          "Type": "LOCAL"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
+            "Arn"
+          ]
+        },
+        "Name": "moose-codebuild-project"
+      },
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/DeploymentPipeline/ServiceProject/Resource"
+      }
+    },
+    "moosecdkCdkSynthProjectRoleD1FC76A7": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codebuild.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "moose-service-setup-stack/moosecdkCdkSynthProject/Role/Resource"
+      }
+    },
+    "moosecdkCdkSynthProjectRoleDefaultPolicy3562E01C": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":logs:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":log-group:/aws/codebuild/",
+                      {
+                        "Ref": "moosecdkCdkSynthProjectBADFA7C9"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":logs:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":log-group:/aws/codebuild/",
+                      {
+                        "Ref": "moosecdkCdkSynthProjectBADFA7C9"
                       },
                       ":*"
                     ]
@@ -1561,7 +1303,7 @@
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "CdkDeployPipelineArtifactsBucket88E91FFE",
+                    "DeploymentPipelineArtifactsBucketA873FDFC",
                     "Arn"
                   ]
                 },
@@ -1571,7 +1313,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "CdkDeployPipelineArtifactsBucket88E91FFE",
+                          "DeploymentPipelineArtifactsBucketA873FDFC",
                           "Arn"
                         ]
                       },
@@ -1592,7 +1334,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+                  "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
                   "Arn"
                 ]
               }
@@ -1607,7 +1349,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+                  "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
                   "Arn"
                 ]
               }
@@ -1615,18 +1357,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "cdkdeployCdkSynthProjectRoleDefaultPolicyFEC4A298",
+        "PolicyName": "moosecdkCdkSynthProjectRoleDefaultPolicy3562E01C",
         "Roles": [
           {
-            "Ref": "cdkdeployCdkSynthProjectRole19E3D5EC"
+            "Ref": "moosecdkCdkSynthProjectRoleD1FC76A7"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/cdkdeployCdkSynthProject/Role/DefaultPolicy/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/moosecdkCdkSynthProject/Role/DefaultPolicy/Resource"
       }
     },
-    "cdkdeployCdkSynthProject0CD49AB6": {
+    "moosecdkCdkSynthProjectBADFA7C9": {
       "Type": "AWS::CodeBuild::Project",
       "Properties": {
         "Artifacts": {
@@ -1640,7 +1382,7 @@
         },
         "ServiceRole": {
           "Fn::GetAtt": [
-            "cdkdeployCdkSynthProjectRole19E3D5EC",
+            "moosecdkCdkSynthProjectRoleD1FC76A7",
             "Arn"
           ]
         },
@@ -1650,20 +1392,35 @@
         },
         "EncryptionKey": {
           "Fn::GetAtt": [
-            "CdkDeployPipelineArtifactsBucketEncryptionKeyB6B070EA",
+            "DeploymentPipelineArtifactsBucketEncryptionKey35F64A03",
             "Arn"
           ]
         },
-        "Name": "cdk-deploy-build-project",
-        "Tags": [
-          {
-            "Key": "cdk-demo",
-            "Value": "true"
-          }
-        ]
+        "Name": "moose-cdk-build-project"
       },
       "Metadata": {
-        "aws:cdk:path": "cdk-deploy-stack/cdkdeployCdkSynthProject/Resource"
+        "aws:cdk:path": "moose-service-setup-stack/moosecdkCdkSynthProject/Resource"
+      }
+    }
+  },
+  "Outputs": {
+    "ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8": {
+      "Value": {
+        "Fn::GetAtt": [
+          "EcrRepository4D7B3EE1",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": "moose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+      }
+    },
+    "ExportsOutputRefEcrRepository4D7B3EE140E01346": {
+      "Value": {
+        "Ref": "EcrRepository4D7B3EE1"
+      },
+      "Export": {
+        "Name": "moose-service-setup-stack:ExportsOutputRefEcrRepository4D7B3EE140E01346"
       }
     }
   }

@@ -11,7 +11,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Resource"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Resource"
       }
     },
     "ServiceClusterVpc7302C9D8": {
@@ -28,12 +28,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc"
+            "Value": "moose-service-stack/ServiceCluster/Vpc"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/Resource"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/Resource"
       }
     },
     "ServiceClusterVpcPublicSubnet1Subnet58875D09": {
@@ -59,7 +59,7 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -72,7 +72,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/Subnet"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1/Subnet"
       }
     },
     "ServiceClusterVpcPublicSubnet1RouteTableE2474BB3": {
@@ -88,12 +88,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/RouteTable"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1/RouteTable"
       }
     },
     "ServiceClusterVpcPublicSubnet1RouteTableAssociation1D86BB39": {
@@ -107,7 +107,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/RouteTableAssociation"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1/RouteTableAssociation"
       }
     },
     "ServiceClusterVpcPublicSubnet1DefaultRoute929FE5C7": {
@@ -125,7 +125,7 @@
         "ServiceClusterVpcVPCGW60248C0A"
       ],
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/DefaultRoute"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1/DefaultRoute"
       }
     },
     "ServiceClusterVpcPublicSubnet1EIP6E3C0321": {
@@ -134,7 +134,7 @@
         "Domain": "vpc"
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/EIP"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1/EIP"
       }
     },
     "ServiceClusterVpcPublicSubnet1NATGateway90E96B4E": {
@@ -156,12 +156,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/NATGateway"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet1/NATGateway"
       }
     },
     "ServiceClusterVpcPublicSubnet2SubnetCC259504": {
@@ -187,7 +187,7 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -200,7 +200,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/Subnet"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2/Subnet"
       }
     },
     "ServiceClusterVpcPublicSubnet2RouteTableAB203322": {
@@ -216,12 +216,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/RouteTable"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2/RouteTable"
       }
     },
     "ServiceClusterVpcPublicSubnet2RouteTableAssociationCA5ACD5B": {
@@ -235,7 +235,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/RouteTableAssociation"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2/RouteTableAssociation"
       }
     },
     "ServiceClusterVpcPublicSubnet2DefaultRoute6255B758": {
@@ -253,7 +253,7 @@
         "ServiceClusterVpcVPCGW60248C0A"
       ],
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/DefaultRoute"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2/DefaultRoute"
       }
     },
     "ServiceClusterVpcPublicSubnet2EIP88F0BAFF": {
@@ -262,7 +262,7 @@
         "Domain": "vpc"
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/EIP"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2/EIP"
       }
     },
     "ServiceClusterVpcPublicSubnet2NATGatewayAE764136": {
@@ -284,12 +284,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/NATGateway"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PublicSubnet2/NATGateway"
       }
     },
     "ServiceClusterVpcPrivateSubnet1Subnet9EB703F5": {
@@ -315,7 +315,7 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet1"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -328,7 +328,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/Subnet"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/Subnet"
       }
     },
     "ServiceClusterVpcPrivateSubnet1RouteTable9EA87352": {
@@ -344,12 +344,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet1"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/RouteTable"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/RouteTable"
       }
     },
     "ServiceClusterVpcPrivateSubnet1RouteTableAssociation5CE71231": {
@@ -363,7 +363,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/RouteTableAssociation"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/RouteTableAssociation"
       }
     },
     "ServiceClusterVpcPrivateSubnet1DefaultRoute60B32E27": {
@@ -378,7 +378,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/DefaultRoute"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/DefaultRoute"
       }
     },
     "ServiceClusterVpcPrivateSubnet2Subnet200D7D35": {
@@ -404,7 +404,7 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet2"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -417,7 +417,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/Subnet"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/Subnet"
       }
     },
     "ServiceClusterVpcPrivateSubnet2RouteTableE5570D36": {
@@ -433,12 +433,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2"
+            "Value": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/RouteTable"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/RouteTable"
       }
     },
     "ServiceClusterVpcPrivateSubnet2RouteTableAssociation383A5CF6": {
@@ -452,7 +452,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/RouteTableAssociation"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/RouteTableAssociation"
       }
     },
     "ServiceClusterVpcPrivateSubnet2DefaultRoute291B6E8B": {
@@ -467,7 +467,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/DefaultRoute"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/DefaultRoute"
       }
     },
     "ServiceClusterVpcIGW049447DD": {
@@ -480,12 +480,12 @@
           },
           {
             "Key": "Name",
-            "Value": "goose-service-stack/ServiceCluster/Vpc"
+            "Value": "moose-service-stack/ServiceCluster/Vpc"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/IGW"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/IGW"
       }
     },
     "ServiceClusterVpcVPCGW60248C0A": {
@@ -499,7 +499,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/VPCGW"
+        "aws:cdk:path": "moose-service-stack/ServiceCluster/Vpc/VPCGW"
       }
     },
     "FargateResourceLBE160E96D": {
@@ -535,13 +535,13 @@
         "ServiceClusterVpcPublicSubnet2DefaultRoute6255B758"
       ],
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/LB/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/LB/Resource"
       }
     },
     "FargateResourceLBSecurityGroup60AF5285": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "Automatically created Security Group for ELB gooseservicestackFargateResourceLB4383B579",
+        "GroupDescription": "Automatically created Security Group for ELB mooseservicestackFargateResourceLB8AB2DDE2",
         "SecurityGroupIngress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -562,10 +562,10 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/LB/SecurityGroup/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/LB/SecurityGroup/Resource"
       }
     },
-    "FargateResourceLBSecurityGrouptogooseservicestackFargateResourceServiceSecurityGroup94343EB1808368F60ED4": {
+    "FargateResourceLBSecurityGrouptomooseservicestackFargateResourceServiceSecurityGroupD43D8DC48083F58F1E3B": {
       "Type": "AWS::EC2::SecurityGroupEgress",
       "Properties": {
         "GroupId": {
@@ -586,7 +586,7 @@
         "ToPort": 8083
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/LB/SecurityGroup/to gooseservicestackFargateResourceServiceSecurityGroup94343EB1:8083"
+        "aws:cdk:path": "moose-service-stack/FargateResource/LB/SecurityGroup/to mooseservicestackFargateResourceServiceSecurityGroupD43D8DC4:8083"
       }
     },
     "FargateResourceLBPublicListener7C7D344A": {
@@ -607,7 +607,7 @@
         "Protocol": "HTTP"
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/LB/PublicListener/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/LB/PublicListener/Resource"
       }
     },
     "FargateResourceLBPublicListenerECSGroupAB2F6530": {
@@ -627,13 +627,13 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/LB/PublicListener/ECSGroup/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/LB/PublicListener/ECSGroup/Resource"
       }
     },
     "FargateResourceDNS5F1DF003": {
       "Type": "AWS::Route53::RecordSet",
       "Properties": {
-        "Name": "goose.dev.fabricgroup.com.au.",
+        "Name": "moose.dev.fabricgroup.com.au.",
         "Type": "A",
         "AliasTarget": {
           "DNSName": {
@@ -652,7 +652,7 @@
         "HostedZoneId": "Z20QY3N3V946UQ"
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/DNS/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/DNS/Resource"
       }
     },
     "FargateResourceTaskDefTaskRole7D24548C": {
@@ -678,7 +678,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/TaskRole/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/TaskDef/TaskRole/Resource"
       }
     },
     "FargateResourceTaskDef35273293": {
@@ -693,7 +693,7 @@
               },
               {
                 "Name": "SERVICE_NAME",
-                "Value": "goose"
+                "Value": "moose"
               }
             ],
             "Essential": true,
@@ -708,7 +708,7 @@
                         "Fn::Split": [
                           ":",
                           {
-                            "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+                            "Fn::ImportValue": "moose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
                           }
                         ]
                       }
@@ -722,7 +722,7 @@
                         "Fn::Split": [
                           ":",
                           {
-                            "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+                            "Fn::ImportValue": "moose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
                           }
                         ]
                       }
@@ -734,7 +734,7 @@
                   },
                   "/",
                   {
-                    "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputRefEcrRepository4D7B3EE140E01346"
+                    "Fn::ImportValue": "moose-service-setup-stack:ExportsOutputRefEcrRepository4D7B3EE140E01346"
                   },
                   ":latest"
                 ]
@@ -768,7 +768,7 @@
             "Arn"
           ]
         },
-        "Family": "gooseservicestackFargateResourceTaskDef7A2A3FE7",
+        "Family": "mooseservicestackFargateResourceTaskDefF1A1EF5D",
         "Memory": "512",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": [
@@ -788,7 +788,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/TaskDef/Resource"
       }
     },
     "FargateResourceTaskDefwebLogGroupED5DCF5B": {
@@ -796,7 +796,7 @@
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/web/LogGroup/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/TaskDef/web/LogGroup/Resource"
       }
     },
     "FargateResourceTaskDefExecutionRoleC25C18C7": {
@@ -822,7 +822,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/TaskDef/ExecutionRole/Resource"
       }
     },
     "FargateResourceTaskDefExecutionRoleDefaultPolicyCDFEF453": {
@@ -838,7 +838,7 @@
               ],
               "Effect": "Allow",
               "Resource": {
-                "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+                "Fn::ImportValue": "moose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
               }
             },
             {
@@ -870,7 +870,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/TaskDef/ExecutionRole/DefaultPolicy/Resource"
       }
     },
     "FargateResourceService4A0163FB": {
@@ -932,13 +932,13 @@
         "FargateResourceLBPublicListener7C7D344A"
       ],
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/Service/Service"
+        "aws:cdk:path": "moose-service-stack/FargateResource/Service/Service"
       }
     },
     "FargateResourceServiceSecurityGroupE371BDA5": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "goose-service-stack/FargateResource/Service/SecurityGroup",
+        "GroupDescription": "moose-service-stack/FargateResource/Service/SecurityGroup",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -957,10 +957,10 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/Service/SecurityGroup/Resource"
+        "aws:cdk:path": "moose-service-stack/FargateResource/Service/SecurityGroup/Resource"
       }
     },
-    "FargateResourceServiceSecurityGroupfromgooseservicestackFargateResourceLBSecurityGroupE918EAC78083CAE11561": {
+    "FargateResourceServiceSecurityGroupfrommooseservicestackFargateResourceLBSecurityGroup5AFF345080830689C64D": {
       "Type": "AWS::EC2::SecurityGroupIngress",
       "Properties": {
         "IpProtocol": "tcp",
@@ -981,7 +981,7 @@
         "ToPort": 8083
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-stack/FargateResource/Service/SecurityGroup/from gooseservicestackFargateResourceLBSecurityGroupE918EAC7:8083"
+        "aws:cdk:path": "moose-service-stack/FargateResource/Service/SecurityGroup/from mooseservicestackFargateResourceLBSecurityGroup5AFF3450:8083"
       }
     }
   },
