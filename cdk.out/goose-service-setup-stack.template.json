@@ -118,7 +118,7 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
-                    "gooseservicestackcdkCdkSynthProjectRoleAA38313B",
+                    "goosecdkCdkSynthProjectRole9F7B4E94",
                     "Arn"
                   ]
                 }
@@ -136,7 +136,7 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
-                    "gooseservicestackcdkCdkSynthProjectRoleAA38313B",
+                    "goosecdkCdkSynthProjectRole9F7B4E94",
                     "Arn"
                   ]
                 }
@@ -440,7 +440,7 @@
                 },
                 "Configuration": {
                   "ProjectName": {
-                    "Ref": "gooseservicestackcdkCdkSynthProject073BE3D9"
+                    "Ref": "goosecdkCdkSynthProject5A10780B"
                   }
                 },
                 "InputArtifacts": [
@@ -538,7 +538,7 @@
           },
           "Type": "S3"
         },
-        "Name": "goose-service-stack-pipeline",
+        "Name": "goose-pipeline",
         "RestartExecutionOnUpdate": true
       },
       "DependsOn": [
@@ -714,7 +714,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "gooseservicestackcdkCdkSynthProject073BE3D9",
+                  "goosecdkCdkSynthProject5A10780B",
                   "Arn"
                 ]
               }
@@ -1202,13 +1202,13 @@
             "Arn"
           ]
         },
-        "Name": "goose-service-stack-codebuild-project"
+        "Name": "goose-codebuild-project"
       },
       "Metadata": {
         "aws:cdk:path": "goose-service-setup-stack/DeploymentPipeline/ServiceProject/Resource"
       }
     },
-    "gooseservicestackcdkCdkSynthProjectRoleAA38313B": {
+    "goosecdkCdkSynthProjectRole9F7B4E94": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -1225,10 +1225,10 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-setup-stack/gooseservice-stack-cdkCdkSynthProject/Role/Resource"
+        "aws:cdk:path": "goose-service-setup-stack/goosecdkCdkSynthProject/Role/Resource"
       }
     },
-    "gooseservicestackcdkCdkSynthProjectRoleDefaultPolicyD2C4F0E5": {
+    "goosecdkCdkSynthProjectRoleDefaultPolicy82F0FA5A": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -1259,7 +1259,7 @@
                       },
                       ":log-group:/aws/codebuild/",
                       {
-                        "Ref": "gooseservicestackcdkCdkSynthProject073BE3D9"
+                        "Ref": "goosecdkCdkSynthProject5A10780B"
                       }
                     ]
                   ]
@@ -1282,7 +1282,7 @@
                       },
                       ":log-group:/aws/codebuild/",
                       {
-                        "Ref": "gooseservicestackcdkCdkSynthProject073BE3D9"
+                        "Ref": "goosecdkCdkSynthProject5A10780B"
                       },
                       ":*"
                     ]
@@ -1357,18 +1357,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "gooseservicestackcdkCdkSynthProjectRoleDefaultPolicyD2C4F0E5",
+        "PolicyName": "goosecdkCdkSynthProjectRoleDefaultPolicy82F0FA5A",
         "Roles": [
           {
-            "Ref": "gooseservicestackcdkCdkSynthProjectRoleAA38313B"
+            "Ref": "goosecdkCdkSynthProjectRole9F7B4E94"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-setup-stack/gooseservice-stack-cdkCdkSynthProject/Role/DefaultPolicy/Resource"
+        "aws:cdk:path": "goose-service-setup-stack/goosecdkCdkSynthProject/Role/DefaultPolicy/Resource"
       }
     },
-    "gooseservicestackcdkCdkSynthProject073BE3D9": {
+    "goosecdkCdkSynthProject5A10780B": {
       "Type": "AWS::CodeBuild::Project",
       "Properties": {
         "Artifacts": {
@@ -1382,7 +1382,7 @@
         },
         "ServiceRole": {
           "Fn::GetAtt": [
-            "gooseservicestackcdkCdkSynthProjectRoleAA38313B",
+            "goosecdkCdkSynthProjectRole9F7B4E94",
             "Arn"
           ]
         },
@@ -1396,10 +1396,10 @@
             "Arn"
           ]
         },
-        "Name": "goose-service-stack-cdk-build-project"
+        "Name": "goose-cdk-build-project"
       },
       "Metadata": {
-        "aws:cdk:path": "goose-service-setup-stack/gooseservice-stack-cdkCdkSynthProject/Resource"
+        "aws:cdk:path": "goose-service-setup-stack/goosecdkCdkSynthProject/Resource"
       }
     }
   },
