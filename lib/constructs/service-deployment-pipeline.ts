@@ -37,7 +37,6 @@ export class ServiceDeploymentPipeline extends Construct {
         this.addServiceBuildStage(props, sourceArtifact)
         const cdkBuildArtifact = this.addCdkBuildStage(scope, props, cdkArtifact)
         this.addDeploymentStage(cdkBuildArtifact, props.serviceStackName, props.deploymentRole)
-
     }
 
     private addSourceStage(props: ServiceDeploymentPipelineProps) {
