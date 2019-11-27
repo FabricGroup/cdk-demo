@@ -17,6 +17,7 @@ export interface ServiceDeploymentPipelineProps {
         branch: string
         owner: string
     }
+    serviceName: string
     serviceStackName: string
     deploymentRole: Role
 }
@@ -28,7 +29,7 @@ export class ServiceDeploymentPipeline extends Construct {
         super(scope, id)
 
         this.pipeline = new Pipeline(this, id, {
-            pipelineName: `${props.serviceStackName}-pipeline`,
+            pipelineName: `${props.serviceName}-pipeline`,
             restartExecutionOnUpdate: true
         })
 
@@ -69,7 +70,7 @@ export class ServiceDeploymentPipeline extends Construct {
 
     private addServiceBuildStage(props: ServiceDeploymentPipelineProps, sourceArtifact: Artifact) {
         const project = new Project(this, 'ServiceProject', {
-            projectName: `${props.serviceStackName}-codebuild-project`,
+            projectName: `${props.serviceName}-codebuild-project`,
             environment: {
                 //needed for docker
                 privileged: true
@@ -98,7 +99,8 @@ export class ServiceDeploymentPipeline extends Construct {
     }
 
     private addCdkBuildStage(scope: Construct, props: ServiceDeploymentPipelineProps, cdkArtifact: Artifact): Artifact {
-        const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceStackName}-cdk`, cdkArtifact)
+        const cdkSynthAction = new CDKSynthPipelineAction(scope, `${props.serviceName}-cdk`, cdkArtifact)
+
         this.pipeline.addStage({
             stageName: 'generate-stack-template',
             actions: [cdkSynthAction.codeBuildAction]
