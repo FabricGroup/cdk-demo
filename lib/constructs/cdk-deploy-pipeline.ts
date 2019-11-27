@@ -13,6 +13,7 @@ export interface CdkDeployPipelineProps {
         owner: string
         githubTokenName: string
     }
+    serviceSetupStackName: string
 }
 
 export class CdkDeployPipeline extends Construct {
@@ -34,6 +35,7 @@ export class CdkDeployPipeline extends Construct {
         const cdkSynthArtifact = this.addSynthStage(cdkArtifact)
 
         this.addDeploymentStages(cdkSynthArtifact, 'cdk-deploy-stack', props.deploymentRole)
+        this.addDeploymentStages(cdkSynthArtifact, props.serviceSetupStackName, props.deploymentRole)
     }
 
     private addSourceStage(props: CdkDeployPipelineProps): Artifact {
