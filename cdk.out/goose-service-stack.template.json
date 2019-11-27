@@ -1,0 +1,1007 @@
+{
+  "Resources": {
+    "ServiceClusterFDF828A9": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Resource"
+      }
+    },
+    "ServiceClusterVpc7302C9D8": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/Resource"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet1Subnet58875D09": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/18",
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/Subnet"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet1RouteTableE2474BB3": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/RouteTable"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet1RouteTableAssociation1D86BB39": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPublicSubnet1RouteTableE2474BB3"
+        },
+        "SubnetId": {
+          "Ref": "ServiceClusterVpcPublicSubnet1Subnet58875D09"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/RouteTableAssociation"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet1DefaultRoute929FE5C7": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPublicSubnet1RouteTableE2474BB3"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "ServiceClusterVpcIGW049447DD"
+        }
+      },
+      "DependsOn": [
+        "ServiceClusterVpcVPCGW60248C0A"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/DefaultRoute"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet1EIP6E3C0321": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/EIP"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet1NATGateway90E96B4E": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "ServiceClusterVpcPublicSubnet1EIP6E3C0321",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "ServiceClusterVpcPublicSubnet1Subnet58875D09"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet1/NATGateway"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet2SubnetCC259504": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.64.0/18",
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/Subnet"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet2RouteTableAB203322": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/RouteTable"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet2RouteTableAssociationCA5ACD5B": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPublicSubnet2RouteTableAB203322"
+        },
+        "SubnetId": {
+          "Ref": "ServiceClusterVpcPublicSubnet2SubnetCC259504"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/RouteTableAssociation"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet2DefaultRoute6255B758": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPublicSubnet2RouteTableAB203322"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "ServiceClusterVpcIGW049447DD"
+        }
+      },
+      "DependsOn": [
+        "ServiceClusterVpcVPCGW60248C0A"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/DefaultRoute"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet2EIP88F0BAFF": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/EIP"
+      }
+    },
+    "ServiceClusterVpcPublicSubnet2NATGatewayAE764136": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "ServiceClusterVpcPublicSubnet2EIP88F0BAFF",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "ServiceClusterVpcPublicSubnet2SubnetCC259504"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PublicSubnet2/NATGateway"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet1Subnet9EB703F5": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.128.0/18",
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/Subnet"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet1RouteTable9EA87352": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/RouteTable"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet1RouteTableAssociation5CE71231": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPrivateSubnet1RouteTable9EA87352"
+        },
+        "SubnetId": {
+          "Ref": "ServiceClusterVpcPrivateSubnet1Subnet9EB703F5"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/RouteTableAssociation"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet1DefaultRoute60B32E27": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPrivateSubnet1RouteTable9EA87352"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "ServiceClusterVpcPublicSubnet1NATGateway90E96B4E"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet1/DefaultRoute"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet2Subnet200D7D35": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.192.0/18",
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/Subnet"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet2RouteTableE5570D36": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/RouteTable"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet2RouteTableAssociation383A5CF6": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPrivateSubnet2RouteTableE5570D36"
+        },
+        "SubnetId": {
+          "Ref": "ServiceClusterVpcPrivateSubnet2Subnet200D7D35"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/RouteTableAssociation"
+      }
+    },
+    "ServiceClusterVpcPrivateSubnet2DefaultRoute291B6E8B": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "ServiceClusterVpcPrivateSubnet2RouteTableE5570D36"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "ServiceClusterVpcPublicSubnet2NATGatewayAE764136"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/PrivateSubnet2/DefaultRoute"
+      }
+    },
+    "ServiceClusterVpcIGW049447DD": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          },
+          {
+            "Key": "Name",
+            "Value": "goose-service-stack/ServiceCluster/Vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/IGW"
+      }
+    },
+    "ServiceClusterVpcVPCGW60248C0A": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        },
+        "InternetGatewayId": {
+          "Ref": "ServiceClusterVpcIGW049447DD"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/ServiceCluster/Vpc/VPCGW"
+      }
+    },
+    "FargateResourceLBE160E96D": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "FargateResourceLBSecurityGroup60AF5285",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Ref": "ServiceClusterVpcPublicSubnet1Subnet58875D09"
+          },
+          {
+            "Ref": "ServiceClusterVpcPublicSubnet2SubnetCC259504"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ],
+        "Type": "application"
+      },
+      "DependsOn": [
+        "ServiceClusterVpcPublicSubnet1DefaultRoute929FE5C7",
+        "ServiceClusterVpcPublicSubnet2DefaultRoute6255B758"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/Resource"
+      }
+    },
+    "FargateResourceLBSecurityGroup60AF5285": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB gooseservicestackFargateResourceLB4383B579",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ],
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/SecurityGroup/Resource"
+      }
+    },
+    "FargateResourceLBSecurityGrouptogooseservicestackFargateResourceServiceSecurityGroup94343EB1808368F60ED4": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceLBSecurityGroup60AF5285",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceServiceSecurityGroupE371BDA5",
+            "GroupId"
+          ]
+        },
+        "FromPort": 8083,
+        "ToPort": 8083
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/SecurityGroup/to gooseservicestackFargateResourceServiceSecurityGroup94343EB1:8083"
+      }
+    },
+    "FargateResourceLBPublicListener7C7D344A": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "FargateResourceLBPublicListenerECSGroupAB2F6530"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "FargateResourceLBE160E96D"
+        },
+        "Port": 80,
+        "Protocol": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/PublicListener/Resource"
+      }
+    },
+    "FargateResourceLBPublicListenerECSGroupAB2F6530": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ],
+        "TargetType": "ip",
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/LB/PublicListener/ECSGroup/Resource"
+      }
+    },
+    "FargateResourceDNS5F1DF003": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "Name": "goose.dev.fabricgroup.com.au.",
+        "Type": "A",
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::GetAtt": [
+              "FargateResourceLBE160E96D",
+              "DNSName"
+            ]
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "FargateResourceLBE160E96D",
+              "CanonicalHostedZoneID"
+            ]
+          }
+        },
+        "HostedZoneId": "Z20QY3N3V946UQ"
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/DNS/Resource"
+      }
+    },
+    "FargateResourceTaskDefTaskRole7D24548C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/TaskRole/Resource"
+      }
+    },
+    "FargateResourceTaskDef35273293": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "PORT",
+                "Value": "8083"
+              }
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Select": [
+                      4,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Fn::Select": [
+                      3,
+                      {
+                        "Fn::Split": [
+                          ":",
+                          {
+                            "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/",
+                  {
+                    "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputRefEcrRepository4D7B3EE140E01346"
+                  },
+                  ":latest"
+                ]
+              ]
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "FargateResourceTaskDefwebLogGroupED5DCF5B"
+                },
+                "awslogs-stream-prefix": "FargateResource",
+                "awslogs-region": {
+                  "Ref": "AWS::Region"
+                }
+              }
+            },
+            "Name": "web",
+            "PortMappings": [
+              {
+                "ContainerPort": 8083,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FargateResourceTaskDefExecutionRoleC25C18C7",
+            "Arn"
+          ]
+        },
+        "Family": "gooseservicestackFargateResourceTaskDef7A2A3FE7",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FargateResourceTaskDefTaskRole7D24548C",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/Resource"
+      }
+    },
+    "FargateResourceTaskDefwebLogGroupED5DCF5B": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/web/LogGroup/Resource"
+      }
+    },
+    "FargateResourceTaskDefExecutionRoleC25C18C7": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/Resource"
+      }
+    },
+    "FargateResourceTaskDefExecutionRoleDefaultPolicyCDFEF453": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::ImportValue": "goose-service-setup-stack:ExportsOutputFnGetAttEcrRepository4D7B3EE1Arn21868DE8"
+              }
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "FargateResourceTaskDefwebLogGroupED5DCF5B",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "FargateResourceTaskDefExecutionRoleDefaultPolicyCDFEF453",
+        "Roles": [
+          {
+            "Ref": "FargateResourceTaskDefExecutionRoleC25C18C7"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "FargateResourceService4A0163FB": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "TaskDefinition": {
+          "Ref": "FargateResourceTaskDef35273293"
+        },
+        "Cluster": {
+          "Ref": "ServiceClusterFDF828A9"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "web",
+            "ContainerPort": 8083,
+            "TargetGroupArn": {
+              "Ref": "FargateResourceLBPublicListenerECSGroupAB2F6530"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "FargateResourceServiceSecurityGroupE371BDA5",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Ref": "ServiceClusterVpcPrivateSubnet1Subnet9EB703F5"
+              },
+              {
+                "Ref": "ServiceClusterVpcPrivateSubnet2Subnet200D7D35"
+              }
+            ]
+          }
+        },
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ]
+      },
+      "DependsOn": [
+        "FargateResourceLBPublicListenerECSGroupAB2F6530",
+        "FargateResourceLBPublicListener7C7D344A"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/Service/Service"
+      }
+    },
+    "FargateResourceServiceSecurityGroupE371BDA5": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "goose-service-stack/FargateResource/Service/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "cdk-demo",
+            "Value": "true"
+          }
+        ],
+        "VpcId": {
+          "Ref": "ServiceClusterVpc7302C9D8"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/Service/SecurityGroup/Resource"
+      }
+    },
+    "FargateResourceServiceSecurityGroupfromgooseservicestackFargateResourceLBSecurityGroupE918EAC78083CAE11561": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 8083,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceServiceSecurityGroupE371BDA5",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "FargateResourceLBSecurityGroup60AF5285",
+            "GroupId"
+          ]
+        },
+        "ToPort": 8083
+      },
+      "Metadata": {
+        "aws:cdk:path": "goose-service-stack/FargateResource/Service/SecurityGroup/from gooseservicestackFargateResourceLBSecurityGroupE918EAC7:8083"
+      }
+    }
+  },
+  "Outputs": {
+    "FargateResourceLoadBalancerDNS282EE013": {
+      "Value": {
+        "Fn::GetAtt": [
+          "FargateResourceLBE160E96D",
+          "DNSName"
+        ]
+      }
+    },
+    "FargateResourceServiceURLFADB3707": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "http://",
+            {
+              "Ref": "FargateResourceDNS5F1DF003"
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
