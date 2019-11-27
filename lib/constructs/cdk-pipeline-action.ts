@@ -35,7 +35,7 @@ export class CDKSynthPipelineAction {
                         commands: [
                             'yarn install',
                             'yarn test',
-                            'yarn cdk synth'
+                            'yarn cdk-synth'
                         ]
                     }
                 },
