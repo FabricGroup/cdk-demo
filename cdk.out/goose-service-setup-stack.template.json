@@ -383,7 +383,7 @@
                 "Configuration": {
                   "Owner": "FabricGroup",
                   "Repo": "cdk-demo",
-                  "Branch": "master2",
+                  "Branch": "master",
                   "OAuthToken": "{{resolve:secretsmanager:cdk-demo/github/goose-token:SecretString:::}}",
                   "PollForSourceChanges": false
                 },
@@ -1387,7 +1387,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"runtime-versions\": {\n        \"nodejs\": 10\n      },\n      \"commands\": [\n        \"apt-get update -y\",\n        \"apt-get install apt-transport-https\",\n        \"curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add\",\n        \"echo \\\"deb https://dl.yarnpkg.com/debian/ stable main\\\" | tee /etc/apt/sources.list.d/yarn.list\",\n        \"apt-get update -y\",\n        \"apt-get install -y yarn\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"yarn install\",\n        \"yarn test\",\n        \"yarn cdk synth\"\n      ]\n    }\n  },\n  \"artifacts\": {\n    \"files\": [\n      \"*.template.json\"\n    ],\n    \"discard-paths\": true,\n    \"base-directory\": \"cdk.out\"\n  },\n  \"cache\": {\n    \"paths\": [\n      \"node_modules/**/*\"\n    ]\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"runtime-versions\": {\n        \"nodejs\": 10\n      },\n      \"commands\": [\n        \"apt-get update -y\",\n        \"apt-get install apt-transport-https\",\n        \"curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add\",\n        \"echo \\\"deb https://dl.yarnpkg.com/debian/ stable main\\\" | tee /etc/apt/sources.list.d/yarn.list\",\n        \"apt-get update -y\",\n        \"apt-get install -y yarn\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"yarn install\",\n        \"yarn test\",\n        \"yarn cdk-synth\"\n      ]\n    }\n  },\n  \"artifacts\": {\n    \"files\": [\n      \"*.template.json\"\n    ],\n    \"discard-paths\": true,\n    \"base-directory\": \"cdk.out\"\n  },\n  \"cache\": {\n    \"paths\": [\n      \"node_modules/**/*\"\n    ]\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "EncryptionKey": {
